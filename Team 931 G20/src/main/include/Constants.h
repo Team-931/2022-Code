@@ -13,3 +13,9 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+namespace Constants {
+    namespace Intake {
+        constexpr int whnum {0},
+        actnum {0};
+    }
+}
