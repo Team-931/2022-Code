@@ -17,6 +17,8 @@ namespace Constants {
     namespace DriveTrain
     {
         constexpr int drvnum[] {1,3,5,7}, trnnum[] {2,4,6,8};
+        constexpr double offsetXs[] {10,10,-10,-10};
+        constexpr double offsetYs[] {10, -10, 10, -10};
     } // namespace DriveTrain
     
     namespace Intake {
