@@ -14,6 +14,11 @@
  * they are needed.
  */
 namespace Constants {
+    namespace DriveTrain
+    {
+        constexpr int drvnum[] {1,3,5,7}, trnnum[] {2,4,6,8};
+    } // namespace DriveTrain
+    
     namespace Intake {
         constexpr int whnum {0},
         actnum {0};
