@@ -4,8 +4,6 @@
 # include <frc2/command/SubsystemBase.h>
 # include <frc/Solenoid.h>
 # include <rev/cansparkmax.h>   
-# include "Constants.h"
-using namespace Constants::Intake;
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -26,7 +24,7 @@ class Intake : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  rev::CANSparkMax wheels {whnum};
-  frc::Solenoid actuator {actnum};
-  bool running {false};
+  rev::CANSparkMax wheels;
+  frc::Solenoid actuator;
+  bool running;
 };
