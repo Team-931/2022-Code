@@ -13,8 +13,17 @@ class Intake : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
+
+  /**
+   * true starts intake; false stops it.
+  */
   void startstop (bool);
-  void raiselower (bool );  
+  
+  /**
+   * true raises intake; false lowers it.
+  */
+  void raiselower (bool);  
+ 
   /**
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.
