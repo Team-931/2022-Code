@@ -6,14 +6,16 @@
 # include "Constants.h"
 using namespace Constants::Intake;
 
-Intake::Intake() : wheels (whnum), actuator(actnum), running (false) {
+Intake::Intake() : wheels (whnum, rev::CANSparkMax::MotorType::kBrushless),
+ actuator(frc::PneumaticsModuleType::CTREPCM, actnum),
+ running (false) {
   // Implementation of subsystem constructor goes here.
 }
 
-void ExampleSubsystem::Periodic() {
+void Intake::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
-void ExampleSubsystem::SimulationPeriodic() {
+void Intake::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
 }

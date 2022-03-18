@@ -4,5 +4,5 @@
 
 #include "commands/ExampleCommand.h"
 
-ExampleCommand::ExampleCommand(ExampleSubsystem* subsystem)
+ExampleCommand::ExampleCommand(Intake* subsystem)
     : m_subsystem{subsystem} {}
