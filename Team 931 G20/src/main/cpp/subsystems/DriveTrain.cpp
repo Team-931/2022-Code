@@ -11,6 +11,15 @@ DriveTrain::DriveTrain() {
   // Implementation of subsystem constructor goes here.
 }
 
+void DriveTrain::SetV(double linX, double linY, double rot, bool fieldctr) {
+    if (fieldctr) {
+        // todo:
+    }
+    double scale = 1;
+    for (auto & wheel : wheels) scale = std::max (scale, wheel.SetV(linX, linY, rot));
+    for (auto & wheel : wheels) wheel.ScaleV (scale);
+}
+
 void DriveTrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
@@ -24,10 +33,13 @@ SwerveModule::SwerveModule(int ix) : drive (drvnum[ix]), turn (trnnum[ix]),
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder);
 }
 
-void SwerveModule::SetVelocities(double linX, double linY, double rot) {
+double SwerveModule::SetV(double linX, double linY, double rot) {
     linX += offsetY * rot;
     linY -= offsetX * rot;
-    double spd = std::sqrt (linX*linX + linY*linY),
-        angle = std::atan2 (linY, linX);
-    //todo: more
+    speed = std::sqrt (linX*linX + linY*linY);
+    angle = std::atan2 (linY, linX);
+}
+
+void SwerveModule::ScaleV(double scale) {
+    speed /= scale; // we assert scale >= 1
 }

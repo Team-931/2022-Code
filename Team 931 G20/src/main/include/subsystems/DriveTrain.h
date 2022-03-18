@@ -14,11 +14,14 @@
 class SwerveModule : public frc2::SubsystemBase {
   public:
     SwerveModule(int);
+
 /**
  * the module's motion is set relative to the robot's axes
+ * SetV calculates an initial speed and angle, returns the speed.
+ * ScaleV divides that speed by a scale factor to keep each wheels speed in proportion and in range.
 */
-
-  void SetVelocities (double linX, double linY, double rot); 
+  double SetV (double linX, double linY, double rot);
+  void ScaleV(double scale); 
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -35,7 +38,8 @@ class SwerveModule : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   ctre::phoenix::motorcontrol::can::WPI_TalonFX drive, turn;
-  double offsetX, offsetY;
+  double offsetX, offsetY,
+    speed{0}, angle;
 };
 
 /**
@@ -65,6 +69,6 @@ class DriveTrain : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  SwerveModule leftFront {0}, rightFront {1}, leftRear {2}, rightRear{3};
+  SwerveModule wheels[4] {0,1,2,3};
   AHRS navx {frc::SPI::Port::kMXP};
 };
