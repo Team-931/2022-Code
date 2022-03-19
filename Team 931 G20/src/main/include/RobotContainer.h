@@ -9,6 +9,7 @@
 # include "commands/ExampleCommand.h"
 # include "subsystems/Intake.h"
 # include "subsystems/DriveTrain.h"
+# include "subsystems/Turret.h"
 # include <frc/XboxController.h> //this is the file containing connection to xbox controller
 
 /**
@@ -28,6 +29,7 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   Intake intake;
   DriveTrain drivetrain;
+  Turret turret;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
