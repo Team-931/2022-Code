@@ -13,7 +13,7 @@
 */
 class SwerveModule : public frc2::SubsystemBase {
   public:
-    SwerveModule(int);
+    SwerveModule();
 
 /**
  * the module's motion is set relative to the robot's axes
@@ -40,6 +40,7 @@ class SwerveModule : public frc2::SubsystemBase {
   ctre::phoenix::motorcontrol::can::WPI_TalonFX drive, turn;
   double offsetX, offsetY,
     speed{0}, angle;
+  static int ix;
 };
 
 /**
@@ -70,6 +71,6 @@ class DriveTrain : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  SwerveModule wheels[4] {0,1,2,3};
+  SwerveModule wheels[4];
   AHRS navx {frc::SPI::Port::kMXP};
 };

@@ -28,8 +28,11 @@ void DriveTrain::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
 }
 
-SwerveModule::SwerveModule(int ix) : drive (drvnum[ix]), turn (trnnum[ix]),
+int SwerveModule::ix = 0;
+
+SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
  offsetX (offsetXs[ix]), offsetY (offsetYs[ix]) {
+    ++ix;
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder);
 }
 
