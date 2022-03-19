@@ -14,8 +14,9 @@ Intake::Intake() : wheels (whnum, rev::CANSparkMax::MotorType::kBrushless),
 
 void Intake::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  if (running) wheels.Set(1);
+  if (running) wheels.Set(whpow);
   else wheels.Set(0);
+
 }
 
 void Intake::startstop(bool on) {

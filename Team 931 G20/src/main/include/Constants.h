@@ -24,7 +24,11 @@ namespace Constants {
     } // namespace DriveTrain
     
     namespace Intake {
-        constexpr int whnum {0},
-        actnum {0};
+        constexpr int whnum {1}, /* motor, they help suck the ball in */
+        actnum {0}; /* mechanism that initiates intake mechanism*/
+        constexpr double whpow = 0.75; //default power for the motor whnum
+        
+
+
     }
 }
