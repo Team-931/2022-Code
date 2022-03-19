@@ -53,6 +53,7 @@ void SwerveModule::ScaleV(double scale) {
 
 void SwerveModule::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  drive.Set(speed);
 }
 
 void SwerveModule::SimulationPeriodic() {
