@@ -31,4 +31,19 @@ namespace Constants {
 
 
     }
+
+    //namespace for the turret (getting and shooting the ball)
+    namespace Turret{
+        constexpr int turretrotator = 2; //refers to the turret rotator (rotates turret)
+        constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
+        
+    }
+
+    //namespacefor the ball elevator
+    namespace ballelavator{
+
+            constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
+
+
+    }
 }
