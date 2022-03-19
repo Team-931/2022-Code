@@ -10,6 +10,7 @@
 # include "subsystems/Intake.h"
 # include "subsystems/DriveTrain.h"
 # include "subsystems/Turret.h"
+# include <frc/XboxController.h> //this is the file containing connection to xbox controller
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -32,4 +33,10 @@ class RobotContainer {
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
+
+
+  //The driver's controller (for manual control)
+  frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
+  
+  frc::XboxController operatorstick{1}; //1 is only temporary (controller responsible for shooting the ball)
 };
