@@ -9,6 +9,7 @@
 # include "commands/ExampleCommand.h"
 # include "subsystems/Intake.h"
 # include "subsystems/DriveTrain.h"
+# include "subsystems/Turret.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -27,6 +28,7 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   Intake intake;
   DriveTrain drivetrain;
+  Turret turret;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
