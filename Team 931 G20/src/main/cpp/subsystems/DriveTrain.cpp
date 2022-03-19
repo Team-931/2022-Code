@@ -38,8 +38,17 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
     linY -= offsetX * rot;
     speed = std::sqrt (linX*linX + linY*linY);
     angle = std::atan2 (linY, linX);
+    return speed;
 }
 
 void SwerveModule::ScaleV(double scale) {
     speed /= scale; // we assert scale >= 1
+}
+
+void SwerveModule::Periodic() {
+  // Implementation of subsystem periodic method goes here.
+}
+
+void SwerveModule::SimulationPeriodic() {
+  // Implementation of subsystem simulation periodic method goes here.
 }

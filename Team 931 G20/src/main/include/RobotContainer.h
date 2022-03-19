@@ -6,8 +6,9 @@
 
 #include <frc2/command/Command.h>
 
-#include "commands/ExampleCommand.h"
-#include "subsystems/Intake.h"
+# include "commands/ExampleCommand.h"
+# include "subsystems/Intake.h"
+# include "subsystems/DriveTrain.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -24,7 +25,8 @@ class RobotContainer {
 
  private:
   // The robot's subsystems and commands are defined here...
-  Intake m_subsystem;
+  Intake intake;
+  DriveTrain drivetrain;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();

@@ -16,9 +16,10 @@
 namespace Constants {
     namespace DriveTrain
     {
-        constexpr int drvnum[] {1,3,5,7}, trnnum[] {2,4,6,8};
-        constexpr double offsetXs[] {10,10,-10,-10};
-        constexpr double offsetYs[] {10, -10, 10, -10};
+        constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6};
+        constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
+        constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
+        constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
     } // namespace DriveTrain
     
     namespace Intake {

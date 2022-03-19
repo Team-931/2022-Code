@@ -50,6 +50,7 @@ class DriveTrain : public frc2::SubsystemBase {
   DriveTrain();
 //todo: PID?? to set orientation during auto
 
+// X is forward
   /**
    * Set linear and rotational velocity relative to the field by default, otherwise relative to the robot.                                          
    */
