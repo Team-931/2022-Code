@@ -21,7 +21,7 @@ class Turret : public frc2::SubsystemBase {
 
   void ShootTheBall(); //Shoots the ball into the basket
 
-  void ModifyAngle(); //Modifies the angle at which the turret is set (up down/ how much i is it angled)
+  void ModifyAngle(); //Modifies the angle at which the turret is set (up down/ how much it is it angled)
 
   void RotateTurret(); //rotates the turret (has a set amount of degrees at which it can be turned)
 
@@ -32,6 +32,5 @@ class Turret : public frc2::SubsystemBase {
 
    rev::CANSparkMax rotator; // motor used to rotate the turret
    rev::CANSparkMax anglechanger; //used to modify the angle at which the turret is at (up/down in degrees)
-   frc::Encoder rotatorsensor; //senses the rotation of the turret (how much it has moved) (encoder underneath the cannon-hole) 
-
+  
 };
