@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-
+# include <WPI/numbers>
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other
@@ -20,6 +20,7 @@ namespace Constants {
         constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
         constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
         constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
+        constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi;
     } // namespace DriveTrain
     
     namespace Intake {

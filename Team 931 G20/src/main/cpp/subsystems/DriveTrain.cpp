@@ -33,7 +33,9 @@ int SwerveModule::ix = 0;
 SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
  offsetX (offsetXs[ix]), offsetY (offsetYs[ix]) {
     ++ix;
-    turn.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder);
+    turn.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute);
+    turn.SetNeutralMode(NeutralMode::Coast);
+    drive.SetNeutralMode(NeutralMode::Brake);
 }
 
 double SwerveModule::SetV(double linX, double linY, double rot) {
@@ -41,6 +43,7 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
     linY -= offsetX * rot;
     speed = std::sqrt (linX*linX + linY*linY);
     angle = std::atan2 (linY, linX);
+    turn.Set (ControlMode::Position, ticksPerRadian * angle);
     return speed;
 }
 
