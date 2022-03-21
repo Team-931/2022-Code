@@ -20,7 +20,8 @@ namespace Constants {
         constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
         constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
         constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
-        constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi;
+        constexpr double rotationRescale = halfLen + halfWid; // todo: de-kludge this
+        constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi*72/14*24/12; //from gearing
     } // namespace DriveTrain
     
     namespace Intake {
