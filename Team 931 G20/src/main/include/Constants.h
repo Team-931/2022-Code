@@ -4,6 +4,7 @@
 
 #pragma once
 # include <WPI/numbers>
+# include <cmath>
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other
