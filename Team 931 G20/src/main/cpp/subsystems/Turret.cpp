@@ -9,8 +9,8 @@ using namespace Constants::Turret;
 Turret::Turret() : rotator(turretrotator, rev::CANSparkMax::MotorType::kBrushless), 
 anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless) {
 // Implementation of Turret constructor.
-
-
+rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+anglechanger.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
 
 void Turret::Periodic() {
