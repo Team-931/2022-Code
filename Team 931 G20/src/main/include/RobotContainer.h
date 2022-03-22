@@ -49,7 +49,6 @@ class RobotContainer {
           if (joy.GetBButton()) it.SetV(-.25,0,0);
           else
           it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightY());
-          if (joy.GetBackButton()) tur.RotateTurret(.1);
         }
         DriveTrain & it;
         Turret & tur;

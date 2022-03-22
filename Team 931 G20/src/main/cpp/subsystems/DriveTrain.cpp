@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 # include <cmath>
+# include <string>
 # include "subsystems/DriveTrain.h"
 # include "Constants.h"
 # include <frc/smartdashboard/SmartDashboard.h>
@@ -35,7 +36,7 @@ int SwerveModule::ix = 0;
 SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
  absAngle (encodernum[ix]), 
  offsetX (offsetXs[ix]), offsetY (offsetYs[ix]) {
-    SetName("wheels " + ix);
+    SetName("wheels " + std::to_string(ix));
     AddChild("absAngle", &absAngle);
     ++ix;
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
@@ -75,7 +76,7 @@ void SwerveModule::Periodic() {
   // Implementation of subsystem periodic method goes here.
   drive.Set(speed);
   static int ctr = 0;
-  if ((ctr++) % 16 == 0) frc::SmartDashboard::PutNumber(GetName() + "abs Encoder", 360*absAngle.GetAbsolutePosition());
+  if ((ctr++) % 5 == 0) frc::SmartDashboard::PutNumber(GetName() + "abs Encoder", 360*absAngle.GetAbsolutePosition());
 }
 
 void SwerveModule::SimulationPeriodic() {
