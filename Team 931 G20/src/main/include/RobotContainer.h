@@ -36,7 +36,7 @@ class RobotContainer {
 
   struct DrvbyStick
     : public frc2::CommandHelper<frc2::CommandBase, DrvbyStick> {
-        DrvbyStick(DriveTrain & d, Turret & t, frc::XboxController & j) : it(d), tur(), joy(j) {
+        DrvbyStick(DriveTrain & d, Turret & t, frc::XboxController & j) : it(d), tur(t), joy(j) {
           AddRequirements (&d);
         }
         void Execute() override {
