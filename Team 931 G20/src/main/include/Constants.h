@@ -48,10 +48,7 @@ namespace Constants {
     namespace ballelavator{
 
             constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
-            int intaksens {0}; //sets the sensor closest to the intake to 0
-            int basesens{0}; //sets the sensor at the base of the ballevator to 0
-            int shootssens{0}; //sets the sensor closest to the shooter to 0
-
+           
 
     }
 }
