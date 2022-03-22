@@ -6,6 +6,7 @@
 
 # include <frc2/command/SubsystemBase.h>
 # include <ctre/Phoenix.h>
+# include <frc/DutyCycleEncoder.h>
 # include <AHRS.h>
 
 /**
@@ -38,6 +39,7 @@ class SwerveModule : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   ctre::phoenix::motorcontrol::can::WPI_TalonFX drive, turn;
+  frc::DutyCycleEncoder absAngle;
   double offsetX, offsetY,
     speed{0}, angle;
   static int ix;

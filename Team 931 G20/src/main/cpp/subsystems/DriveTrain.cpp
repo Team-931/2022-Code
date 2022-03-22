@@ -10,6 +10,7 @@ using namespace Constants::DriveTrain;
 
 DriveTrain::DriveTrain() {
   // Implementation of subsystem constructor goes here.
+  SetName("drive train");
 }
 
 void DriveTrain::SetV(double linX, double linY, double rot, bool fieldctr) {
@@ -32,13 +33,18 @@ void DriveTrain::SimulationPeriodic() {
 int SwerveModule::ix = 0;
 
 SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
+ absAngle (encodernum[ix]), 
  offsetX (offsetXs[ix]), offsetY (offsetYs[ix]) {
+    SetName("wheels " + ix);
+    AddChild("absAngle", &absAngle);
     ++ix;
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
     turn.SetNeutralMode(NeutralMode::Coast);
-    turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
+    turn.SetSelectedSensorPosition(ticksPerAbsTick * absAngle.GetAbsolutePosition());
+    // does this work?
+/*     turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
     turn.ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Signed_PlusMinus180);
-    // set PID
+ */    // set PID
     turn.Config_kP(0, .25);
     drive.SetNeutralMode(NeutralMode::Brake);
 }
@@ -68,6 +74,8 @@ void SwerveModule::ScaleV(double scale) {
 void SwerveModule::Periodic() {
   // Implementation of subsystem periodic method goes here.
   drive.Set(speed);
+  static int ctr = 0;
+  if ((ctr++) % 16 == 0) frc::SmartDashboard::PutNumber(GetName() + "abs Encoder", 360*absAngle.GetAbsolutePosition());
 }
 
 void SwerveModule::SimulationPeriodic() {

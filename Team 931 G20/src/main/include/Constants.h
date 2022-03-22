@@ -16,12 +16,15 @@
 namespace Constants {
     namespace DriveTrain
     {
-        constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6};
+        constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6},
+            encodernum[] {0,1,3,2};
         constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
         constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
         constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
         const double rotationRescale = std::sqrt(halfLen*halfLen + halfWid*halfWid); // todo: de-kludge this, it makes the linear and rotational control argumenrs comparable.
-        constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi*72/14*24/12; //from gearing
+        constexpr double turnGearing = 72.0/14*24/12, // maybe use std::ratio
+            ticksPerRadian = 2048/2/wpi::numbers::pi*turnGearing,
+            ticksPerAbsTick = turnGearing * 2048/*/ 4096*/; // todo: check this with hardware
     } // namespace DriveTrain
     
     namespace Intake {
