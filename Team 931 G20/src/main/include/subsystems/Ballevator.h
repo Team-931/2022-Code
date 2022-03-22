@@ -57,7 +57,9 @@ class Ballevator : public frc2::SubsystemBase {
   void SimulationPeriodic() override;
 
  private:
-  frc::AnalogInput ultrasonic{0};
+  frc::AnalogInput intakESense{0};
+  frc::AnalogInput baseSens{1};
+  frc::AnalogInput shootsens{2};
   rev::CANSparkMax elevator;
 
 
