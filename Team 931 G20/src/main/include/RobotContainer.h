@@ -70,7 +70,7 @@ class RobotContainer {
         }
         Turret & it;
         frc::XboxController & joy;
-  } turretbyStick;
+  } turretbyStick {turret, operatorstick};
   //The driver's controller (for manual control)
   frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
   
