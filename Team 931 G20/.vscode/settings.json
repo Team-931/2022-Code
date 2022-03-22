@@ -18,6 +18,8 @@
   "files.associations": {
     "iostream": "cpp",
     "numbers": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "cmath": "cpp",
+    "complex": "cpp"
   }
 }

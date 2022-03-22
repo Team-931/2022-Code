@@ -16,6 +16,7 @@ anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless) {
 void Turret::Periodic() {
 // Implementation of Turret periodic method.
 
+
 }
 
 
@@ -25,15 +26,19 @@ void Turret::ShootTheBall(){
 } 
 
 
-void Turret::ModifyAngle(){
+void Turret::ModifyAngle(double power ){ //for now, this function works based on the power sent to it
 //Modifies the angle at which the turret is set (up down/ how much it is it angled)
+
+anglechanger.Set(power);
+
 
 } 
 
 
-void Turret::RotateTurret(){
-//rotates the turret (has a set amount of degrees at which it can be turned)
-
+void Turret::RotateTurret( double power){//for now, this function works based on the power sent to it
+//rotates the turret (has a set amount of degrees at which it can be turned based on motor power)
+  
+    rotator.Set(power); 
 
 } 
 

@@ -36,7 +36,7 @@ class RobotContainer {
 
   struct DrvbyStick
     : public frc2::CommandHelper<frc2::CommandBase, DrvbyStick> {
-        DrvbyStick(DriveTrain & d, frc::XboxController & j) : it(d), joy(j) {
+        DrvbyStick(DriveTrain & d, Turret & t, frc::XboxController & j) : it(d), tur(t), joy(j) {
           AddRequirements (&d);
         }
         void Execute() override {
@@ -51,9 +51,10 @@ class RobotContainer {
           it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightY());
         }
         DriveTrain & it;
+        Turret & tur;
         frc::XboxController & joy;
     }
-    drivebyStick {drivetrain, driverstick};
+    drivebyStick {drivetrain, turret, driverstick};
   //The driver's controller (for manual control)
   frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
   
