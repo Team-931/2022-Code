@@ -29,6 +29,8 @@ class SwerveModule : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void Init();
+
   /**
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.
@@ -63,6 +65,8 @@ class DriveTrain : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void Init();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.

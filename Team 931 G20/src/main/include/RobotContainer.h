@@ -23,6 +23,8 @@ class RobotContainer {
  public:
   RobotContainer();
 
+  void Init();
+
   frc2::Command* GetAutonomousCommand();
 
  private:

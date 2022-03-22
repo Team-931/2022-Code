@@ -41,7 +41,6 @@ SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
     ++ix;
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
     turn.SetNeutralMode(NeutralMode::Coast);
-    turn.SetSelectedSensorPosition(ticksPerAbsTick * absAngle.GetAbsolutePosition());
     // does this work?
 /*     turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
     turn.ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Signed_PlusMinus180);
@@ -77,6 +76,13 @@ void SwerveModule::Periodic() {
   drive.Set(speed);
   static int ctr = 0;
   if ((ctr++) % 5 == 0) frc::SmartDashboard::PutNumber(GetName() + "abs Encoder", 360*absAngle.GetAbsolutePosition());
+}
+void DriveTrain::Init() {
+  for (auto & wheel : wheels) wheel.Init();
+}
+
+void SwerveModule::Init() {
+  turn.SetSelectedSensorPosition(ticksPerAbsTick * absAngle.GetAbsolutePosition());
 }
 
 void SwerveModule::SimulationPeriodic() {

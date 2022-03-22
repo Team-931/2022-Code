@@ -12,6 +12,10 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&intake) {
   drivetrain.SetDefaultCommand (drivebyStick);
 }
 
+void RobotContainer::Init() {
+  drivetrain.Init();
+}
+
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
 }
