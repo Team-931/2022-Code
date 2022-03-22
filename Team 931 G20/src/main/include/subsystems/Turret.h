@@ -21,9 +21,9 @@ class Turret : public frc2::SubsystemBase {
 
   void ShootTheBall(); //Shoots the ball into the basket
 
-  void ModifyAngle(); //Modifies the angle at which the turret is set (up down/ how much it is it angled)
+  void ModifyAngle(double power); //Modifies the angle at which the turret is set (up down/ how much it is it angled)
 
-  void RotateTurret(); //rotates the turret (has a set amount of degrees at which it can be turned)
+  void RotateTurret(double power); //rotates the turret (has a set amount of degrees at which it can be turned)
 
      
  private:
