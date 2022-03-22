@@ -26,7 +26,7 @@ void Turret::ShootTheBall(){
 } 
 
 
-void Turret::ModifyAngle(double power ){
+void Turret::ModifyAngle(double power ){ //for now, this function works based on the power sent to it
 //Modifies the angle at which the turret is set (up down/ how much it is it angled)
 
 anglechanger.Set(power);
@@ -35,7 +35,7 @@ anglechanger.Set(power);
 } 
 
 
-void Turret::RotateTurret( double power){
+void Turret::RotateTurret( double power){//for now, this function works based on the power sent to it
 //rotates the turret (has a set amount of degrees at which it can be turned based on motor power)
   
     rotator.Set(power); 
