@@ -61,12 +61,12 @@ class RobotContainer {
         TurbyStick(Turret & t, frc::XboxController & j) : it(t), joy(j) {
           AddRequirements (&t);
         }
-        void Execute() override {
-          if(joy.GetXButton()) it.RotateTurret(-.1);
+        void Execute() override { // constantly waiting  for input
+          if(joy.GetXButton()) it.RotateTurret(.1); // if the x button is pressed, then rotate the turret to the left(counterclockwise)
           else
-          if(joy.GetBButton()) it.RotateTurret(-.1);
+          if(joy.GetBButton()) it.RotateTurret(-.1); // if the b button is pressed, then rotate the turret to the right(clockwise)
           else
-           it.RotateTurret(0);
+           it.RotateTurret(0); //otherwise do nothing
         }
         Turret & it;
         frc::XboxController & joy;
