@@ -4,6 +4,7 @@
 
 #pragma once
 # include <WPI/numbers>
+#
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other
@@ -16,11 +17,15 @@
 namespace Constants {
     namespace DriveTrain
     {
-        constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6};
+        constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6},
+            encodernum[] {0,1,3,2};
         constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
         constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
         constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
-        constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi;
+        const double rotationRescale = std::sqrt(halfLen*halfLen + halfWid*halfWid); // todo: de-kludge this, it makes the linear and rotational control argumenrs comparable.
+        constexpr double turnGearing = 72.0/14*24/12, // maybe use std::ratio
+            ticksPerRadian = 2048/2/wpi::numbers::pi*turnGearing,
+            ticksPerAbsTick = turnGearing * 2048/*/ 4096*/; // todo: check this with hardware
     } // namespace DriveTrain
     
     namespace Intake {
@@ -43,6 +48,9 @@ namespace Constants {
     namespace ballelavator{
 
             constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
+            int intaksens {0}; //sets the sensor closest to the intake to 0
+            int basesens{0}; //sets the sensor at the base of the ballevator to 0
+            int shootssens{0}; //sets the sensor closest to the shooter to 0
 
 
     }
