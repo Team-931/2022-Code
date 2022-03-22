@@ -49,7 +49,6 @@ class SwerveModule : public frc2::SubsystemBase {
 class DriveTrain : public frc2::SubsystemBase {
  public:
   DriveTrain();
-//todo: PID?? to set orientation during auto
 
 // X is forward
   /**

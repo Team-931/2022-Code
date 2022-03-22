@@ -20,7 +20,7 @@ namespace Constants {
         constexpr double halfLen = 29.25/2, halfWid = 19.75/2; // X is forward
         constexpr double offsetXs[] {halfLen, halfLen, -halfLen, -halfLen}; // coords in inches
         constexpr double offsetYs[] {halfWid, -halfWid, -halfWid, halfWid}; // right front is +, +
-        constexpr double rotationRescale = halfLen + halfWid; // todo: de-kludge this, it makes the linear and rotational axes on the joystick comparable.
+        const double rotationRescale = std::sqrt(halfLen*halfLen + halfWid*halfWid); // todo: de-kludge this, it makes the linear and rotational control argumenrs comparable.
         constexpr double ticksPerRadian = 2048/2/wpi::numbers::pi*72/14*24/12; //from gearing
     } // namespace DriveTrain
     

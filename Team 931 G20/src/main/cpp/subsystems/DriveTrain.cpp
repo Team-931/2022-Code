@@ -19,11 +19,7 @@ void DriveTrain::SetV(double linX, double linY, double rot, bool fieldctr) {
     double scale = 1;
     for (auto & wheel : wheels) scale = std::max (scale, wheel.SetV(linX, linY, rot));
     for (auto & wheel : wheels) wheel.ScaleV (scale);
-    frc::SmartDashboard::PutNumber ("linX", linX);
-    frc::SmartDashboard::PutNumber ("linY", linY);
-    frc::SmartDashboard::PutNumber ("ror", rot);
-    frc::SmartDashboard::PutNumber ("scale", scale);
-}
+    }
 
 void DriveTrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -40,9 +36,9 @@ SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
     ++ix;
     turn.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
     turn.SetNeutralMode(NeutralMode::Coast);
-    //todo: set PID
     turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
     turn.ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Signed_PlusMinus180);
+    // set PID
     turn.Config_kP(0, .25);
     drive.SetNeutralMode(NeutralMode::Brake);
 }
@@ -51,10 +47,17 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
     rot /= rotationRescale;
     linX += offsetY * rot;
     linY -= offsetX * rot;
-    speed = std::sqrt (linX*linX + linY*linY);
-    angle = std::atan2 (linY, linX);
+    double spd = speed = std::sqrt (linX*linX + linY*linY),
+      ang = std::atan2 (linY, linX);
+    // this puts angle into same semicircle as its old value,
+    // equivalent to adding or subtracting multiples of 180 degrees to ang to keep it as close to angle as
+    // possible. Note that if we change ang by an odd number of semicircles we change the sign of speed.
+    int phase;
+    angle = angle - std::remquo (angle - ang, wpi::numbers::pi, &phase);
+    if (phase & 1) speed = - speed;
+    //double oldangle = turn.GetSelectedSensorPosition();//maybe later if we want to refer to actual position
     turn.Set (ControlMode::Position, ticksPerRadian * angle);
-    return speed;
+    return spd;
 }
 
 void SwerveModule::ScaleV(double scale) {
