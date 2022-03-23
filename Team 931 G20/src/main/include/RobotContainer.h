@@ -11,6 +11,7 @@
 # include "subsystems/DriveTrain.h"
 # include "subsystems/Turret.h"
 # include <frc/XboxController.h> //this is the file containing connection to xbox controller
+# include <frc/Joystick.h>>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -84,6 +85,7 @@ class RobotContainer {
   } turretbyStick {turret, operatorstick};
   //The driver's controller (for manual control)
   frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
+  frc::Joystick drivestickJ{0};
   
   frc::XboxController operatorstick{1}; //1 is only temporary (controller responsible for shooting the ball)
 };

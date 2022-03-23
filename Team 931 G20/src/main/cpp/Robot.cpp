@@ -8,7 +8,9 @@
 #include <frc2/command/CommandScheduler.h>
 
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -27,9 +29,7 @@ void Robot::RobotPeriodic() {
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {
-  m_container.Init();
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
 
