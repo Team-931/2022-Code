@@ -17,6 +17,10 @@ DriveTrain::DriveTrain() {
 void DriveTrain::SetV(double linX, double linY, double rot, bool fieldctr) {
     if (fieldctr) {
         // todo:
+        double yaw = - wpi::numbers::pi / 180 * navx.GetYaw();
+        double c = std::cos(yaw), s = std::sin(yaw);
+        double x = linX*c - linY*s, y = linX*s + linY*c;
+        linX = x; linY = y;
     }
     double scale = 1;
     for (auto & wheel : wheels) scale = std::max (scale, wheel.SetV(linX, linY, rot));
@@ -78,7 +82,7 @@ void SwerveModule::Periodic() {
   if ((ctr++) % 5 == 0) {
     double ang = absAngle.GetAbsolutePosition();
     frc::SmartDashboard::PutNumber(GetName() + " abs Encoder", 360*ang);
-    frc::SmartDashboard::PutNumber(GetName() + " encoder diff", turn.GetSelectedSensorPosition() - ticksPerAbsTick * ang);
+    frc::SmartDashboard::PutNumber(GetName() + " encoder diff", turn.GetSelectedSensorPosition() + ticksPerAbsTick * ang);
   }
 }
 void DriveTrain::Init() {
@@ -86,7 +90,7 @@ void DriveTrain::Init() {
 }
 
 void SwerveModule::Init() {
-  turn.SetSelectedSensorPosition(ticksPerAbsTick * absAngle.GetAbsolutePosition());
+  turn.SetSelectedSensorPosition(- ticksPerAbsTick * absAngle.GetAbsolutePosition());
 }
 
 void SwerveModule::SimulationPeriodic() {
