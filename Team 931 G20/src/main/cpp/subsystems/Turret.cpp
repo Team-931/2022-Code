@@ -7,10 +7,15 @@
 using namespace Constants::Turret;
         
 Turret::Turret() : rotator(turretrotator, rev::CANSparkMax::MotorType::kBrushless), 
-anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless) {
+    anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless),
+    shooterL(shooterLeft), shooterR(shooterRight) {
 // Implementation of Turret constructor.
 rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 anglechanger.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+shooterL.Follow(shooterR);
+shooterL.SetInverted(TalonFXInvertType::OpposeMaster);
+shooterR.SetInverted(TalonFXInvertType::Clockwise);
+shooterR.Config_kP(0,.1);
 }
 
 void Turret::Periodic() {
@@ -20,9 +25,9 @@ void Turret::Periodic() {
 }
 
 
-void Turret::ShootTheBall(){
+void Turret::ShootTheBall(bool on){
 //Shoots the ball into the basket
-
+    shooterR.Set(TalonFXControlMode::Velocity, on ? 3000 : 0);
 } 
 
 

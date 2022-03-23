@@ -44,6 +44,7 @@ class SwerveModule : public frc2::SubsystemBase {
   frc::DutyCycleEncoder absAngle;
   double offsetX, offsetY,
     speed{0}, angle;
+  int index;
   static int ix;
 };
 

@@ -38,7 +38,7 @@ void DriveTrain::SimulationPeriodic() {
 int SwerveModule::ix = 0;
 
 SwerveModule::SwerveModule() : drive (drvnum[ix]), turn (trnnum[ix]),
- absAngle (encodernum[ix]), 
+ absAngle (encodernum[ix]), index (ix),
  offsetX (offsetXs[ix]), offsetY (offsetYs[ix]) {
     SetName("wheels " + std::to_string(ix));
     AddChild("absAngle", &absAngle);
@@ -81,7 +81,7 @@ void SwerveModule::Periodic() {
   static int ctr = 0;
   if ((ctr++) % 5 == 0) {
     double ang = absAngle.GetAbsolutePosition();
-    frc::SmartDashboard::PutNumber(GetName() + " abs Encoder", 360*ang);
+    frc::SmartDashboard::PutNumber(GetName() + " abs Encoder", 4096*ang);
     frc::SmartDashboard::PutNumber(GetName() + " encoder diff", turn.GetSelectedSensorPosition() + ticksPerAbsTick * ang);
   }
 }
@@ -90,7 +90,7 @@ void DriveTrain::Init() {
 }
 
 void SwerveModule::Init() {
-  turn.SetSelectedSensorPosition(- ticksPerAbsTick * absAngle.GetAbsolutePosition());
+  turn.SetSelectedSensorPosition(ticksPerAbsTick * (absSubtraction[index]/4096. - absAngle.GetAbsolutePosition()));
 }
 
 void SwerveModule::SimulationPeriodic() {
