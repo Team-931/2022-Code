@@ -75,7 +75,11 @@ void SwerveModule::Periodic() {
   // Implementation of subsystem periodic method goes here.
   drive.Set(speed);
   static int ctr = 0;
-  if ((ctr++) % 5 == 0) frc::SmartDashboard::PutNumber(GetName() + "abs Encoder", 360*absAngle.GetAbsolutePosition());
+  if ((ctr++) % 5 == 0) {
+    double ang = absAngle.GetAbsolutePosition();
+    frc::SmartDashboard::PutNumber(GetName() + " abs Encoder", 360*ang);
+    frc::SmartDashboard::PutNumber(GetName() + " encoder diff", turn.GetSelectedSensorPosition() - ticksPerAbsTick * ang);
+  }
 }
 void DriveTrain::Init() {
   for (auto & wheel : wheels) wheel.Init();
