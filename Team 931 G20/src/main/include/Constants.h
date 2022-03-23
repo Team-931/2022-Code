@@ -26,6 +26,7 @@ namespace Constants {
         constexpr double turnGearing = 72.0/14*24/12, // maybe use std::ratio
             ticksPerRadian = 2048/2/wpi::numbers::pi*turnGearing,
             ticksPerAbsTick = turnGearing * 2048/*/ 4096*/; // todo: check this with hardware
+        constexpr int absSubtraction[] {3265, 2068, 135, 2673}; // to align the wheels
     } // namespace DriveTrain
     
     namespace Intake {
@@ -41,7 +42,7 @@ namespace Constants {
     namespace Turret{
         constexpr int turretrotator = 2; //refers to the turret rotator (rotates turret)
         constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
-        
+        constexpr int shooterLeft = 8, shooterRight = 9; 
     }
 
     //namespacefor the ball elevator

@@ -72,8 +72,6 @@ class RobotContainer {
           else
            it.RotateTurret(0); //otherwise do nothing
 
-
-
 //modifying turret angle (elevation)
           if(joy.GetYButton()) it.ModifyAngle(-0.1); // if the Y button is pressed, then angle the turret upwards
           else

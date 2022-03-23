@@ -8,9 +8,7 @@
 #include <frc2/command/CommandScheduler.h>
 
 
-void Robot::RobotInit() {
-  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
-}
+void Robot::RobotInit() {}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -43,6 +41,8 @@ void Robot::AutonomousInit() {
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();
   }
+
+  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
 }
 
 void Robot::AutonomousPeriodic() {}
@@ -56,6 +56,8 @@ void Robot::TeleopInit() {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
   }
+
+  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
 }
 
 /**

@@ -1,5 +1,6 @@
 //This will store functionalities for the turret on the bot
 # include <rev/cansparkmax.h>
+# include <ctre/Phoenix.h>
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
@@ -19,7 +20,7 @@ class Turret : public frc2::SubsystemBase {
    * simulation.
    */
 
-  void ShootTheBall(); //Shoots the ball into the basket
+  void ShootTheBall(bool = true); //Shoots the ball into the basket
 
   void ModifyAngle(double power); //Modifies the angle at which the turret is set (up down/ how much it is it angled)
 
@@ -32,5 +33,5 @@ class Turret : public frc2::SubsystemBase {
 
    rev::CANSparkMax rotator; // motor used to rotate the turret
    rev::CANSparkMax anglechanger; //used to modify the angle at which the turret is at (up/down in degrees)
-  
+   WPI_TalonFX shooterL, shooterR;
 };
