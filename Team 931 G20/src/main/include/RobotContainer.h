@@ -57,6 +57,7 @@ class RobotContainer {
         frc::XboxController & joy;
     }
     drivebyStick {drivetrain, driverstick};
+
   struct TurbyStick
     : public frc2::CommandHelper<frc2::CommandBase, TurbyStick>  {
         TurbyStick(Turret & t, frc::XboxController & j) : it(t), joy(j) {
@@ -79,10 +80,34 @@ class RobotContainer {
           if(joy.GetAButton()) it.ModifyAngle(0.1); // if the A button is pressed, then angle the turret downwards
           else
            it.ModifyAngle(0); //otherwise do nothing
+// shoot??
+          it.ShootTheBall (joy.GetRightBumper());
         }
         Turret & it;
         frc::XboxController & joy;
   } turretbyStick {turret, operatorstick};
+
+
+  struct IntbyStick
+    : public frc2::CommandHelper<frc2::CommandBase, IntbyStick>  {
+        IntbyStick(Intake & i, frc::XboxController & j) : it(i), joy(j) {
+          AddRequirements (&i);
+        }
+        void Execute() override {
+          if(joy.GetLeftBumper())
+           {it.raiselower(true);
+           it.startstop(true);} 
+           // if the right bumper is pressed, then lower the intake and run the wheels 
+          else
+           {it.startstop(false);
+           it.raiselower(false);}
+           
+        }
+        Intake & it;
+        frc::XboxController & joy;
+    } Intakebystick {intake, operatorstick};
+
+  
   //The driver's controller (for manual control)
   frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
   frc::Joystick drivestickJ{0};

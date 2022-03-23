@@ -10,7 +10,10 @@ Intake::Intake() : wheels (whnum, rev::CANSparkMax::MotorType::kBrushless),
  raiser(frc::PneumaticsModuleType::CTREPCM, actnum),
  running (false) {
   // Implementation of subsystem constructor goes here.
+  wheels.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
 }
+
 
 void Intake::Periodic() {
   // Implementation of subsystem periodic method goes here.
