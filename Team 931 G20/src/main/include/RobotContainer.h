@@ -10,6 +10,7 @@
 # include "subsystems/Intake.h"
 # include "subsystems/DriveTrain.h"
 # include "subsystems/Turret.h"
+# include "subsystems/Ballevator.h"
 # include <frc/XboxController.h> //this is the file containing connection to xbox controller
 # include <frc/Joystick.h>
 
@@ -33,6 +34,7 @@ class RobotContainer {
   Intake intake;
   DriveTrain drivetrain;
   Turret turret;
+  Ballevator ballevator;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
@@ -105,6 +107,17 @@ class RobotContainer {
         frc::XboxController & joy;
     } Intakebystick {intake, operatorstick};
 
+  struct Ballevate
+    : public frc2::CommandHelper<frc2::CommandBase, Ballevate>  {
+        Ballevate(Ballevator & b, frc::XboxController & j) : it(b), joy(j){
+          AddRequirements (&b);
+        }
+        void Execute() override {
+          it.Periodic();
+        }
+        Ballevator & it;
+        frc::XboxController & joy;
+    } Ballelevate {ballevator, operatorstick};
   
   //The driver's controller (for manual control)
   frc::XboxController driverstick{0}; //0 is only temporary (controller responsible for moving the robot)
