@@ -43,12 +43,15 @@ namespace Constants {
         constexpr int turretrotator = 2; //refers to the turret rotator (rotates turret)
         constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
         constexpr int shooterLeft = 8, shooterRight = 9; 
+        constexpr double shooterSpdInit = 8000;
+        constexpr double rotMin = -150.924, rotMax = 140.7, elevMin = -3.4047, elevMax = -0.01;
     }
 
     //namespacefor the ball elevator
     namespace ballelavator{
 
             constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
+            constexpr int intakenum = 4, elevnum = 5; // DIO numbers for the infrared sensors
            
 
     }
