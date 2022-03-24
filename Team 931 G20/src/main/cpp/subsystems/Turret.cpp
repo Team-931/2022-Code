@@ -48,7 +48,8 @@ void Turret::ShootTheBall(bool on){
 } 
 
 void Turret::IncShooterSpeed(double inc) {
-    shooterSpd += inc*1000;
+    shooterSpd += inc*100;
+    frc::SmartDashboard::PutNumber("shooter speed", shooterSpd);
 }
 
 void Turret::ModifyAngle(double power ){ //for now, this function works based on the power sent to it
