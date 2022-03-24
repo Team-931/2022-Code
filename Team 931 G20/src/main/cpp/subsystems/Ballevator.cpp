@@ -31,7 +31,7 @@ int Ballevator::ballesense(){
   int ballcount = 0;
 //   // set sensor 1 to a value of 0 or  
   if (intakecheck == true & elevchek == true){ // check that there is nothing there
-    ballcount = 0; //count the ball amount
+    ballcount = 0; //count the ball amount to 0
     return 0; //return stop power 
   }
   if (intakecheck == false & elevchek == true) { //when a ball enters the intake
@@ -52,19 +52,21 @@ int Ballevator::ballesense(){
 void Ballevator::startstop(int starter) {
   //Forward Reverse and Stop
   //ballloca == ball location, determining whether or not the power thould be on off or reverse 
-  int balloca = ballesense();
-  if (balloca == 1 & starter == 0)//if there is a ball, and no driver input, set to index power
-    elevator.Set(.5);
-  else
+  // int balloca = ballesense();
+  // if (balloca == 1 & starter == 0)//if there is a ball, and no driver input, set to index power
+  //   elevator.Set(.5);
+  // else
   if (starter == 1) //when there is driver input set shoot power
     elevator.Set(.99);
   else
-  if (balloca == 0) //when there is not known inputs, set stop
     elevator.Set(0);
-  else 
-    if (starter == 3) //if the driver requests reverse, reverse the ballevator 
-    elevator.Set(-.5);
-    //set reverse from button
+
+  // if (balloca == 0) //when there is not known inputs, set stop
+  //   elevator.Set(0);
+  // else 
+  //   if (starter == 3) //if the driver requests reverse, reverse the ballevator 
+  //   elevator.Set(-.5);
+  //   //set reverse from button
 
 }
 
