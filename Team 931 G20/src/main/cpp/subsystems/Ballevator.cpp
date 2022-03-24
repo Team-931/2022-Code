@@ -19,6 +19,7 @@ void Ballevator::Periodic() {
   // Implementation of subsystem periodic method goes here.
     frc::SmartDashboard::PutBoolean("Intake Sensor", intakesens.Get());   // for testing of the ball sensors
     frc::SmartDashboard::PutBoolean("Storage Sensor", elevsens.Get());
+    elevator.Set(.99);
 
 }
 
