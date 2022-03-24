@@ -82,9 +82,12 @@ class RobotContainer {
           else
           if(joy.GetAButton()) it.ModifyAngle(0.1); // if the A button is pressed, then angle the turret downwards
           else
-           it.ModifyAngle(0); //otherwise do nothing
+           it.StayAtAngle()/*ModifyAngle(0)*/; //otherwise do nothing
 // shoot??
           it.ShootTheBall (joy.GetRightBumper());
+
+          double shootChg = joy.GetLeftY();
+          if (std::abs(shootChg) >= .1) it.IncShooterSpeed(-shootChg);
         }
         Turret & it;
         frc::XboxController & joy;
