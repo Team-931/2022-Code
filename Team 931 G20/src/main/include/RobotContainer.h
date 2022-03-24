@@ -120,19 +120,15 @@ class RobotContainer {
           AddRequirements (&b);
         }
         void Execute() override {
-          it.Periodic();
-          if(joy.GetYButton())  {
-            it.startstop(1);
-          }
-          else
-          if(joy.GetXButton()) {
-            it.startstop(3);
-          }
-          else{
-            it.startstop(0);
-          } 
-        }
-        Ballevator & it;
+
+            // if(joy.GetLeftBumper())
+                     }
+          // else
+          // if(joy.GetStartButton()) {
+          //   it.startstop(3);
+          // }
+  
+      Ballevator & it;
         frc::XboxController & joy;
     } Ballelevate {ballevator, operatorstick};
   
