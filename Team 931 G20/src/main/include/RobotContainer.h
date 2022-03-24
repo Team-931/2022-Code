@@ -63,7 +63,7 @@ class RobotContainer {
     }
     drivebyStick {drivetrain, driverstick};
 
-  struct TurbyStick
+ struct TurbyStick
     : public frc2::CommandHelper<frc2::CommandBase, TurbyStick>  {
         TurbyStick(Turret & t, frc::XboxController & j) : it(t), joy(j) {
           AddRequirements (&t);
@@ -93,20 +93,21 @@ class RobotContainer {
         frc::XboxController & joy;
   } turretbyStick {turret, operatorstick};
 
-
   struct IntbyStick
     : public frc2::CommandHelper<frc2::CommandBase, IntbyStick>  {
         IntbyStick(Intake & i, frc::XboxController & j) : it(i), joy(j) {
           AddRequirements (&i);
         }
         void Execute() override {
-          if(joy.GetLeftBumper())
-           {it.raiselower(false);
-           it.startstop(true);} 
+          if(joy.GetLeftBumper()) {
+           it.raiselower(false);
+           it.startstop(true);
+           } 
            // if the right bumper is pressed, then lower the intake and run the wheels 
-          else
-           {it.startstop(false);
-           it.raiselower(true);}
+          else{
+           it.startstop(false);
+           it.raiselower(true);
+           }
            
         }
         Intake & it;
@@ -120,6 +121,16 @@ class RobotContainer {
         }
         void Execute() override {
           it.Periodic();
+          if(joy.GetYButton())  {
+            it.startstop(1);
+          }
+          else
+          if(joy.GetXButton()) {
+            it.startstop(3);
+          }
+          else{
+            it.startstop(0);
+          } 
         }
         Ballevator & it;
         frc::XboxController & joy;

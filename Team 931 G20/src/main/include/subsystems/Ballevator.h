@@ -20,14 +20,19 @@ class Ballevator : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  /*
+  * Sends data about the ballevator status to the drivers
+  */
+  void ballcounter();
+
   /**
-  * start, stop, and rev
+  * start == 1, stop == 0 , and rev ==3
   * start runs towards the shooter
   * stop
   * rev runs towards the intake
   * Use the data from the distance sensors to determine true or false 
   */ 
-  void startstop ();
+  void startstop (int starter);
   
   /**
     * Sensor wrangling
