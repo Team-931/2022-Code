@@ -56,7 +56,7 @@ class RobotContainer {
           else
           if (joy.GetBButton()) it.SetV(-.25,0,0);
           else
-          it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightY(), fieldcentered);
+          it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightX(), fieldcentered);
         }
         DriveTrain & it;
         frc::XboxController & joy;
