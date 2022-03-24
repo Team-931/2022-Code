@@ -8,7 +8,10 @@
 using namespace Constants::ballelavator;
 
 
-Ballevator::Ballevator() : elevator (ballelevator, rev::CANSparkMax::MotorType::kBrushless){
+Ballevator::Ballevator() : elevator (ballelevator, rev::CANSparkMax::MotorType::kBrushless),
+  intakesens{intakenum},
+  elevsens{elevnum}
+  {
   // Implementation of subsystem constructor goes here.
 }
 
@@ -20,32 +23,52 @@ void Ballevator::Periodic() {
 }
 
 
+
 int Ballevator::ballesense(){
 //   //sensor wrangling
+  int intakecheck = intakesens.Get();
+  int elevchek = elevsens.Get();
+  int ballcount = 0;
 //   // set sensor 1 to a value of 0 or  
-//   if (1==1)//sensor logic expression;
-//     return 0;
-//   else
-//   if (1<0) //sensor logic expressions;
-//     return 1;
-//   else  
+  if (intakecheck == true & elevchek == true){ // check that there is nothing there
+    ballcount = 0; //count the ball amount
+    return 0; //return stop power 
+  }
+  if (intakecheck == false & elevchek == true) { //when a ball enters the intake
+    ballcount = 1; // tell drivers that they have one ball that he 
+    return 1; //power set to slow to index the ball
+  }
+  else
+  if (intakecheck == false & elevchek == false) {//sensor logic expressions;
+    ballcount = 2;
+    return 1; //set power to stop, tell drivers hopper is full
+    }
+  else { 
+    ballcount = 0;
+    return 3;
+  }
+}
+
+void Ballevator::startstop(int starter) {
+  //Forward Reverse and Stop
+  //ballloca == ball location, determining whether or not the power thould be on off or reverse 
+  int balloca = ballesense();
+  if (balloca == 1 & starter == 0)//if there is a ball, and no driver input, set to index power
+    elevator.Set(.5);
+  else
+  if (starter == 1) //when there is driver input set shoot power
+    elevator.Set(.99);
+  else
+  if (balloca == 0) //when there is not known inputs, set stop
+    elevator.Set(0);
+  else 
+    if (starter == 3) //if the driver requests reverse, reverse the ballevator 
+    elevator.Set(-.5);
+    //set reverse from button
 
 }
 
-void Ballevator::startstop() {
-  //Forward Reverse and Stop
-  int balloca = ballesense();
-  if (balloca == -1)// index power
-    elevator.Set(.5);
-  else
-  if (balloca == 1) //set shoot power
-    elevator.Set(.99);
-  else
-  if (balloca == 0) //set stop
-    elevator.Set(0);
-  else 
-    elevator.Set(-.5);
-    //set reverse from button
+void Ballevator::ballcounter(){
 
 }
 

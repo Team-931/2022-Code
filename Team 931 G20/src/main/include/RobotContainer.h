@@ -63,7 +63,7 @@ class RobotContainer {
     }
     drivebyStick {drivetrain, driverstick};
 
-  struct TurbyStick
+ struct TurbyStick
     : public frc2::CommandHelper<frc2::CommandBase, TurbyStick>  {
         TurbyStick(Turret & t, frc::XboxController & j) : it(t), joy(j) {
           AddRequirements (&t);
@@ -82,14 +82,16 @@ class RobotContainer {
           else
           if(joy.GetAButton()) it.ModifyAngle(0.1); // if the A button is pressed, then angle the turret downwards
           else
-           it.ModifyAngle(0); //otherwise do nothing
+           it.StayAtAngle()/*ModifyAngle(0)*/; //otherwise do nothing
 // shoot??
           it.ShootTheBall (joy.GetRightBumper());
+
+          double shootChg = joy.GetLeftY();
+          if (std::abs(shootChg) >= .1) it.IncShooterSpeed(-shootChg);
         }
         Turret & it;
         frc::XboxController & joy;
   } turretbyStick {turret, operatorstick};
-
 
   struct IntbyStick
     : public frc2::CommandHelper<frc2::CommandBase, IntbyStick>  {
@@ -97,13 +99,15 @@ class RobotContainer {
           AddRequirements (&i);
         }
         void Execute() override {
-          if(joy.GetLeftBumper())
-           {it.raiselower(false);
-           it.startstop(true);} 
+          if(joy.GetLeftBumper()) {
+           it.raiselower(false);
+           it.startstop(true);
+           } 
            // if the right bumper is pressed, then lower the intake and run the wheels 
-          else
-           {it.startstop(false);
-           it.raiselower(true);}
+          else{
+           it.startstop(false);
+           it.raiselower(true);
+           }
            
         }
         Intake & it;
@@ -117,6 +121,16 @@ class RobotContainer {
         }
         void Execute() override {
           it.Periodic();
+          if(joy.GetYButton())  {
+            it.startstop(1);
+          }
+          else
+          if(joy.GetXButton()) {
+            it.startstop(3);
+          }
+          else{
+            it.startstop(0);
+          } 
         }
         Ballevator & it;
         frc::XboxController & joy;
