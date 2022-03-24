@@ -2,7 +2,7 @@
 #pragma once
 
 # include <frc2/command/SubsystemBase.h>
-# include <frc/Solenoid.h>
+# include <frc/DoubleSolenoid.h>
 # include <rev/cansparkmax.h>   
 
 class Intake : public frc2::SubsystemBase {
@@ -34,6 +34,6 @@ class Intake : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   rev::CANSparkMax wheels;
-  frc::Solenoid raiser;
+  frc::DoubleSolenoid raiser;
   bool running;
 };

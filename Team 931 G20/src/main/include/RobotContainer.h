@@ -43,6 +43,9 @@ class RobotContainer {
           AddRequirements (&d);
         }
         void Execute() override {
+          static bool fieldcentered = true;
+          if (joy.GetLeftBumperPressed()) fieldcentered ^= true;
+          // these button assignments are for testing, to be removed later
           if (joy.GetYButton()) it.SetV(0,0,0);
           else
           if (joy.GetXButton()) it.SetV(.25,0,0);
@@ -51,7 +54,7 @@ class RobotContainer {
           else
           if (joy.GetBButton()) it.SetV(-.25,0,0);
           else
-          it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightY());
+          it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightY(), fieldcentered);
         }
         DriveTrain & it;
         frc::XboxController & joy;
@@ -93,12 +96,12 @@ class RobotContainer {
         }
         void Execute() override {
           if(joy.GetLeftBumper())
-           {it.raiselower(true);
+           {it.raiselower(false);
            it.startstop(true);} 
            // if the right bumper is pressed, then lower the intake and run the wheels 
           else
            {it.startstop(false);
-           it.raiselower(false);}
+           it.raiselower(true);}
            
         }
         Intake & it;

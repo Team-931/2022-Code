@@ -7,7 +7,7 @@
 using namespace Constants::Intake;
 
 Intake::Intake() : wheels (whnum, rev::CANSparkMax::MotorType::kBrushless),
- raiser(frc::PneumaticsModuleType::CTREPCM, actnum),
+ raiser(frc::PneumaticsModuleType::CTREPCM, raisenum, lownum),
  running (false) {
   // Implementation of subsystem constructor goes here.
   wheels.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -27,7 +27,7 @@ void Intake::startstop(bool on) {
 }
 
 void Intake::raiselower(bool on) {
-  raiser.Set(on);
+  raiser.Set(on ? frc::DoubleSolenoid::kForward: frc::DoubleSolenoid::kReverse);
 }
 
 
