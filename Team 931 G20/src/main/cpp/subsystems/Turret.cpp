@@ -44,7 +44,8 @@ void Turret::Periodic() {
 
 void Turret::ShootTheBall(bool on){
 //Shoots the ball into the basket
-    shooterR.Set(TalonFXControlMode::Velocity, on ? shooterSpd : 0);
+    if(on) shooterR.Set(TalonFXControlMode::Velocity, shooterSpd);
+    else shooterR.Set(0);
 } 
 
 void Turret::IncShooterSpeed(double inc) {
