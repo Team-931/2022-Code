@@ -49,6 +49,7 @@ namespace Constants {
     namespace ballelavator{
 
             constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
+            constexpr int intakenum = 4, elevnum = 5; // DIO numbers for the infrared sensors
            
 
     }

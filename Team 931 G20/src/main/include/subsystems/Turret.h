@@ -33,5 +33,6 @@ class Turret : public frc2::SubsystemBase {
 
    rev::CANSparkMax rotator; // motor used to rotate the turret
    rev::CANSparkMax anglechanger; //used to modify the angle at which the turret is at (up/down in degrees)
+   rev::SparkMaxRelativeEncoder rotPos, elevPos;
    WPI_TalonFX shooterL, shooterR;
 };

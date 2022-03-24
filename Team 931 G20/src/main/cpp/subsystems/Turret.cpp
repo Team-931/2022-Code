@@ -8,6 +8,7 @@ using namespace Constants::Turret;
         
 Turret::Turret() : rotator(turretrotator, rev::CANSparkMax::MotorType::kBrushless), 
     anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless),
+    rotPos(rotator.GetEncoder()), elevPos(anglechanger.GetEncoder()),
     shooterL(shooterLeft), shooterR(shooterRight) {
 // Implementation of Turret constructor.
 rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -23,8 +24,8 @@ void Turret::Periodic() {
 // Testing: report positions of rotator and anglechanger
     static int counter = 0;
     if ((counter++) % 16 == 0) {
-        frc::SmartDashboard::PutNumber ("rotator position", rotator.GetEncoder().GetPosition());
-        frc::SmartDashboard::PutNumber ("anglechanger position", anglechanger.GetEncoder().GetPosition());
+        frc::SmartDashboard::PutNumber ("rotator position", rotPos.GetPosition());
+        frc::SmartDashboard::PutNumber ("anglechanger position", elevPos.GetPosition());
     }
 
 }

@@ -55,8 +55,8 @@ class Ballevator : public frc2::SubsystemBase {
   void SimulationPeriodic() override;
 
  private:
-  frc::DigitalInput intakesens{0};
-  frc::DigitalInput elevsens{1};
+  frc::DigitalInput intakesens;
+  frc::DigitalInput elevsens;
 
   // frc::AnalogInput intakesense{0};
   // frc::AnalogInput basesense{1};

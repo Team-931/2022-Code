@@ -8,7 +8,10 @@
 using namespace Constants::ballelavator;
 
 
-Ballevator::Ballevator() : elevator (ballelevator, rev::CANSparkMax::MotorType::kBrushless){
+Ballevator::Ballevator() : elevator (ballelevator, rev::CANSparkMax::MotorType::kBrushless), 
+  intakesens{intakenum},
+  elevsens{elevnum}
+{
   // Implementation of subsystem constructor goes here.
 }
 
