@@ -1,6 +1,6 @@
 //This will store the definitions of the Turret's functionalities stored in Turret.h
 
-
+# include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/Turret.h"
 #include "Constants.h"
 
@@ -20,7 +20,12 @@ shooterR.Config_kP(0,.1);
 
 void Turret::Periodic() {
 // Implementation of Turret periodic method.
-
+// Testing: report positions of rotator and anglechanger
+    static int counter = 0;
+    if ((counter++) % 16 == 0) {
+        frc::SmartDashboard::PutNumber ("rotator position", rotator.GetEncoder().GetPosition());
+        frc::SmartDashboard::PutNumber ("anglechanger position", anglechanger.GetEncoder().GetPosition());
+    }
 
 }
 
