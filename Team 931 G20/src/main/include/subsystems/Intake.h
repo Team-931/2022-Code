@@ -23,6 +23,11 @@ class Intake : public frc2::SubsystemBase {
    * true raises intake; false lowers it.
   */
   void raiselower (bool);  
+
+  /**
+   * lower if up, raise if downs
+  */
+  void toggleraiser();
  
   /**
    * Will be called periodically whenever the CommandScheduler runs during

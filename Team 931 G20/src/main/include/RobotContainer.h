@@ -59,7 +59,7 @@ class RobotContainer {
           static bool fieldcentered = true;
           if (bot.GetFieldCenterToggle()) fieldcentered ^= true;
           // todo: add throttle
-          it.SetV (bot.GetX(), bot.GetY(), bot.GetRot(), fieldcentered);
+          it.SetV (bot.GetX(), bot.GetY(), bot.GetRot(), bot.GetThrottle(), fieldcentered);
         }
         DriveTrain & it;
         RobotContainer & bot;
@@ -102,10 +102,15 @@ class RobotContainer {
           AddRequirements (&i);
         }
         void Execute() override {
+# if 0
           if(joy.GetLeftBumper()) {
            it.raiselower(false);
            it.startstop(true);
            } 
+# else
+          if(joy.GetLeftBumperPressed())
+            it.toggleraiser(); 
+# endif
            // if the right bumper is pressed, then lower the intake and run the wheels 
           else{
            it.startstop(false);
