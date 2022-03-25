@@ -120,8 +120,8 @@ class RobotContainer {
           AddRequirements (&b);
         }
         void Execute() override {
-
-            // if(joy.GetLeftBumper())
+          if(joy.GetLeftBumper())
+            it.startstop(1);
                      }
           // else
           // if(joy.GetStartButton()) {
