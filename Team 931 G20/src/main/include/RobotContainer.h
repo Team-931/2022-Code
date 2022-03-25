@@ -74,16 +74,16 @@ class RobotContainer {
         void Execute() override { // constantly waiting  for input for turret
 
 //modifying turret rotation
-          if(joy.GetXButton()) it.RotateTurret(.1); // if the x button is pressed, then rotate the turret to the left(counterclockwise)
+          if(joy.GetXButton()) it.RotateTurret(1); // if the x button is pressed, then rotate the turret to the left(counterclockwise) (based on positive coefficient)
           else
-          if(joy.GetBButton()) it.RotateTurret(-.1); // if the b button is pressed, then rotate the turret to the right(clockwise)
+          if(joy.GetBButton()) it.RotateTurret(-1); // if the b button is pressed, then rotate the turret to the right(clockwise) (based on negative coefficient)
           else
            it.RotateTurret(0); //otherwise do nothing
 
 //modifying turret angle (elevation)
-          if(joy.GetYButton()) it.ModifyAngle(-0.1); // if the Y button is pressed, then angle the turret upwards
+          if(joy.GetYButton()) it.ModifyAngle(-1); // if the Y button is pressed, then angle the turret upwards (based on negative coefficient)
           else
-          if(joy.GetAButton()) it.ModifyAngle(0.1); // if the A button is pressed, then angle the turret downwards
+          if(joy.GetAButton()) it.ModifyAngle(1); // if the A button is pressed, then angle the turret downwards (based on positive coefficient)
           else
            it.StayAtAngle()/*ModifyAngle(0)*/; //otherwise do nothing
 // shoot??
