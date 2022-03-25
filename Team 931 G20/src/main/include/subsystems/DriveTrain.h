@@ -59,7 +59,8 @@ class DriveTrain : public frc2::SubsystemBase {
   /**
    * Set linear and rotational velocity relative to the field by default, otherwise relative to the robot.                                          
    */
-  void SetV (double linX, double linY, double rot,  bool fieldcentered = true);
+  void SetV (double linX, double linY, double rot, 
+  double throttles, bool fieldcentered = true);
   
   /**
    * Will be called periodically whenever the CommandScheduler runs.

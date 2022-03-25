@@ -3,8 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+# include <frc/DriverStation.h>
 
-RobotContainer::RobotContainer() : m_autonomousCommand(&intake) {
+RobotContainer::RobotContainer() : m_autonomousCommand(&intake),
+  drivebyStick(drivetrain, *this) {
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -16,6 +18,8 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&intake) {
 
 void RobotContainer::Init() {
   drivetrain.Init();
+  if (frc::DriverStation::GetJoystickIsXbox(0))
+    XBox = true;
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -25,4 +29,29 @@ void RobotContainer::ConfigureButtonBindings() {
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   return &m_autonomousCommand;
+}
+
+double RobotContainer::GetX() {
+  if(XBox) return -driverstick.GetLeftY();
+  return -drivestickJ.GetY();
+}
+
+double RobotContainer::GetY() {
+  if(XBox) return driverstick.GetLeftX();
+  return drivestickJ.GetX();
+}
+
+double RobotContainer::GetRot() {
+  if(XBox) return driverstick.GetRightX();
+  return drivestickJ.GetTwist();
+}
+
+double RobotContainer::GetThrottle() {
+  if(XBox) return driverstick.GetRightTriggerAxis();
+  return drivestickJ.GetThrottle();
+}
+
+bool RobotContainer::GetFieldCenterToggle() {
+  if(XBox) return driverstick.GetRightBumperPressed();
+  return drivestickJ.GetTrigger();
 }

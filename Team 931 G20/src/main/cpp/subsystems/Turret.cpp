@@ -53,8 +53,10 @@ void Turret::IncShooterSpeed(double inc) {
     frc::SmartDashboard::PutNumber("shooter speed", shooterSpd);
 }
 
-void Turret::ModifyAngle(double power ){ //for now, this function works based on the power sent to it
-//Modifies the angle at which the turret is set (up down/ how much it is it angled)
+void Turret::ModifyAngle(double coeff){ //for now, this function works based on the coefficient sent to it (1 or -1) to change direction
+//Modifies the angle at which the turret is set through power (in constants.h file) (up down/ how much it is it angled)
+
+double power = coeff * anglechangerpower; //multiplies anglechangerpower (in constants.h by 1 or negative 1 based on parameter sent )
 
 anglechanger.Set(power);
 
@@ -66,9 +68,11 @@ void Turret::StayAtAngle() {
     elevCtrl.SetReference(elevPos.GetPosition(), rev::ControlType::kPosition);
 }
 
-void Turret::RotateTurret( double power){//for now, this function works based on the power sent to it
+void Turret::RotateTurret(double coeff){//for now, this function works based on the coefficient sent to it (1 or -1) to change direction
 //rotates the turret (has a set amount of degrees at which it can be turned based on motor power)
   
+  double power = coeff * rotatorpower; //multiplies constants by 1 or -1 to change direction
+
     rotator.Set(power); 
 
 } 

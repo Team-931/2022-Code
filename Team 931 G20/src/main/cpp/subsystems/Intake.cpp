@@ -30,6 +30,11 @@ void Intake::raiselower(bool on) {
   raiser.Set(on ? frc::DoubleSolenoid::kForward: frc::DoubleSolenoid::kReverse);
 }
 
+void Intake::toggleraiser() {
+  raiser.Set(frc::DoubleSolenoid::kReverse == raiser.Get()?
+   frc::DoubleSolenoid::kForward:
+   frc::DoubleSolenoid::kReverse);
+}
 
 void Intake::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
