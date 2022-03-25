@@ -15,6 +15,9 @@
  * they are needed.
  */
 namespace Constants {
+    namespace RobotContainer {
+        constexpr double minThrottle = .1;
+    }
     namespace DriveTrain
     {
         constexpr int drvnum[] {0,3,4,7}, trnnum[] {1,2,5,6},
@@ -45,7 +48,7 @@ namespace Constants {
         constexpr int shooterLeft = 8, shooterRight = 9; 
         constexpr double shooterSpdInit = 16400;
         constexpr double rotMin = -149, rotMax = 134, elevMin = -3.4047, elevMax = -0.01;
-        constexpr double rotatorpower = 0.1; // this is the default power of the turret rotator (default is positive)
+        constexpr double rotatorpower = 0.3; // this is the default power of the turret rotator (default is positive)
         constexpr double anglechangerpower = 0.1; //this is the power of the angle changer (default is positive)
 
     }

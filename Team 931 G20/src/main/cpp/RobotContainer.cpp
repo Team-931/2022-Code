@@ -4,6 +4,8 @@
 
 #include "RobotContainer.h"
 # include <frc/DriverStation.h>
+# include "Constants.h"
+using namespace Constants::RobotContainer;
 
 RobotContainer::RobotContainer() : m_autonomousCommand(&intake),
   drivebyStick(drivetrain, *this) {
@@ -32,13 +34,13 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 }
 
 double RobotContainer::GetX() {
-  if(XBox) return -driverstick.GetLeftY();
-  return -drivestickJ.GetY();
+  if(XBox) return driverstick.GetLeftY();
+  return drivestickJ.GetY();
 }
 
 double RobotContainer::GetY() {
-  if(XBox) return driverstick.GetLeftX();
-  return drivestickJ.GetX();
+  if(XBox) return -driverstick.GetLeftX();
+  return -drivestickJ.GetX();
 }
 
 double RobotContainer::GetRot() {
@@ -47,8 +49,8 @@ double RobotContainer::GetRot() {
 }
 
 double RobotContainer::GetThrottle() {
-  if(XBox) return driverstick.GetRightTriggerAxis();
-  return drivestickJ.GetThrottle();
+  if(XBox) return (minThrottle + driverstick.GetRightTriggerAxis() * (1 - minThrottle));
+  return (1 + minThrottle - drivestickJ.GetThrottle() * (1 - minThrottle)) / 2;
 }
 
 bool RobotContainer::GetFieldCenterToggle() {

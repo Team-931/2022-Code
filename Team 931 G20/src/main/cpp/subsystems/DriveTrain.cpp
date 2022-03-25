@@ -16,6 +16,7 @@ DriveTrain::DriveTrain() {
 
 void DriveTrain::SetV(double linX, double linY, double rot,
   double throttle, bool fieldctr) {
+    //frc::SmartDashboard::PutNumber("throttle", throttle);
     if (fieldctr) {
         // todo:
         double yaw = - wpi::numbers::pi / 180 * navx.GetYaw();
@@ -23,7 +24,7 @@ void DriveTrain::SetV(double linX, double linY, double rot,
         double x = linX*c - linY*s, y = linX*s + linY*c;
         linX = x; linY = y;
     }
-    double scale = 1; //1/throttle;
+    double scale = 1/throttle;
     for (auto & wheel : wheels) scale = std::max (scale, wheel.SetV(linX, linY, rot));
     for (auto & wheel : wheels) wheel.ScaleV (scale);
     }
