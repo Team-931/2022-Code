@@ -19,7 +19,9 @@ void Ballevator::Periodic() {
   // Implementation of subsystem periodic method goes here.
     frc::SmartDashboard::PutBoolean("Intake Sensor", intakesens.Get());   // for testing of the ball sensors
     frc::SmartDashboard::PutBoolean("Storage Sensor", elevsens.Get());
-    // elevator.Set(.99);
+    frc::SmartDashboard::PutNumber("elevator power", elevpower);
+
+    elevator.Set(elevpower);
 
 }
 
@@ -31,16 +33,16 @@ int Ballevator::ballesense(){
   int elevchek = elevsens.Get();
   int ballcount = 0;
 //   // set sensor 1 to a value of 0 or  
-  if (intakecheck == true & elevchek == true){ // check that there is nothing there
+  if (intakecheck == true && elevchek == true){ // check that there is nothing there
     ballcount = 0; //count the ball amount to 0
     return 0; //return stop power 
   }
-  if (intakecheck == false & elevchek == true) { //when a ball enters the intake
+  if (intakecheck == false && elevchek == true) { //when a ball enters the intake
     ballcount = 1; // tell drivers that they have one ball that he 
     return 1; //power set to slow to index the ball
   }
   else
-  if (intakecheck == false & elevchek == false) {//sensor logic expressions;
+  if (intakecheck == false && elevchek == false) {//sensor logic expressions;
     ballcount = 2;
     return 1; //set power to index, tell drivers hopper is full
     }
@@ -58,10 +60,9 @@ void Ballevator::startstop(int starter) {
   //   elevator.Set(.5);
   // else
   if (starter == 1) //when there is driver input set shoot power
-    elevator.Set(.99);
+    elevpower = .99;
   else
-    elevator.Set(0);
-
+    elevpower = 0;
   // if (balloca == 0) //when there is not known inputs, set stop
   //   elevator.Set(0);
   // else 

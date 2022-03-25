@@ -103,7 +103,7 @@ class RobotContainer {
           AddRequirements (&i);
         }
         void Execute() override {
-# if 0
+# if 1
           if(joy.GetLeftBumper()) {
            it.raiselower(false);
            it.startstop(true);

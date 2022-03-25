@@ -67,6 +67,7 @@ class Ballevator : public frc2::SubsystemBase {
   // frc::AnalogInput basesense{1};
   // frc::AnalogInput shootsense{2};
   rev::CANSparkMax elevator;
+  float elevpower = 0;
 
 
 
