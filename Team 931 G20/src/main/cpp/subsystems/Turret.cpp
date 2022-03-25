@@ -65,7 +65,7 @@ anglechanger.Set(power);
 } 
 
 void Turret::StayAtAngle() {
-    elevCtrl.SetReference(elevPos.GetPosition(), rev::ControlType::kPosition);
+    elevCtrl.SetReference(elevPos.GetPosition(), rev::CANSparkMax::ControlType::kPosition);
 }
 
 void Turret::RotateTurret(double coeff){//for now, this function works based on the coefficient sent to it (1 or -1) to change direction
