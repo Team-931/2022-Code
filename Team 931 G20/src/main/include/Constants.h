@@ -44,7 +44,7 @@ namespace Constants {
         constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
         constexpr int shooterLeft = 8, shooterRight = 9; 
         constexpr double shooterSpdInit = 16400;
-        constexpr double rotMin = -150.924, rotMax = 140.7, elevMin = -3.4047, elevMax = -0.01;
+        constexpr double rotMin = -149, rotMax = 134, elevMin = -3.4047, elevMax = -0.01;
     }
 
     //namespacefor the ball elevator

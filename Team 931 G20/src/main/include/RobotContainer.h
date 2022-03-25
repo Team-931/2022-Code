@@ -29,39 +29,42 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
 
+// get forward/back from the selected joystick in our coords
+  double GetX();
+// get right/left from the selected joystick in our coords
+  double GetY();
+// get rotation from the selected joystick in our coords
+  double GetRot();
+// get throttle from the selected joystick in our coords
+  double GetThrottle();
+// 
+  bool GetFieldCenterToggle();
  private:
   // The robot's subsystems and commands are defined here...
   Intake intake;
   DriveTrain drivetrain;
   Turret turret;
   Ballevator ballevator;
+  bool XBox {false};
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
 
   struct DrvbyStick
     : public frc2::CommandHelper<frc2::CommandBase, DrvbyStick> {
-        DrvbyStick(DriveTrain & d, frc::XboxController & j) : it(d), joy(j) {
+        DrvbyStick(DriveTrain & d, RobotContainer & j) : it(d), bot(j) {
           AddRequirements (&d);
         }
         void Execute() override {
           static bool fieldcentered = true;
-          if (joy.GetLeftBumperPressed()) fieldcentered ^= true;
-          // these button assignments are for testing, to be removed later
-          if (joy.GetYButton()) it.SetV(0,0,0);
-          else
-          if (joy.GetXButton()) it.SetV(.25,0,0);
-          else
-          if (joy.GetAButton()) it.SetV(0,.25,0);
-          else
-          if (joy.GetBButton()) it.SetV(-.25,0,0);
-          else
-          it.SetV (-joy.GetLeftY(), joy.GetLeftX(), joy.GetRightX(), fieldcentered);
+          if (bot.GetFieldCenterToggle()) fieldcentered ^= true;
+          // todo: add throttle
+          it.SetV (bot.GetX(), bot.GetY(), bot.GetRot(), fieldcentered);
         }
         DriveTrain & it;
-        frc::XboxController & joy;
+        RobotContainer & bot;
     }
-    drivebyStick {drivetrain, driverstick};
+    drivebyStick;
 
  struct TurbyStick
     : public frc2::CommandHelper<frc2::CommandBase, TurbyStick>  {
