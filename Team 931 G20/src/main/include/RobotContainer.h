@@ -130,11 +130,12 @@ class RobotContainer {
         }
         void Execute() override {
 //Previous  Obi code
- //if(joy.GetLeftBumper())
-        //    it.startstop(1);
-                     
+          if(joy.GetLeftBumper())
+            it.startstop(1);
+          else
+            it.startstop(0);
 
-                     
+
             //Nevin Update 1
             //Nevin's attempt at coding the ballevator to work based on button input
             /*

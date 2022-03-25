@@ -42,7 +42,7 @@ int Ballevator::ballesense(){
   else
   if (intakecheck == false & elevchek == false) {//sensor logic expressions;
     ballcount = 2;
-    return 1; //set power to stop, tell drivers hopper is full
+    return 1; //set power to index, tell drivers hopper is full
     }
   else { 
     ballcount = 0;
@@ -59,7 +59,8 @@ void Ballevator::startstop(int starter) {
   // else
   if (starter == 1) //when there is driver input set shoot power
     elevator.Set(.99);
-
+  else
+    elevator.Set(0);
 
   // if (balloca == 0) //when there is not known inputs, set stop
   //   elevator.Set(0);
