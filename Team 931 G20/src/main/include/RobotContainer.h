@@ -120,9 +120,30 @@ class RobotContainer {
           AddRequirements (&b);
         }
         void Execute() override {
-          if(joy.GetLeftBumper())
-            it.startstop(1);
-                     }
+
+
+            //Nevin Update 1
+            //Nevin's attempt at coding the ballevator to work based on button input
+            /*
+            //what sensor variables do we need to change if the ball is shot?
+
+          if(joy.GetXButton()) // if the x button is pressed
+           if(it.ballesense() <= 1) //check if there is only one ball or less in the ball ammo holder
+            it.startstop(0.1); // For now set default to 0.1, will eventually be based on input though
+          else
+          it.set(0) // do nothing 
+         
+
+            */
+
+
+
+
+            // if(joy.GetLeftBumper())
+                     
+                    
+                     
+             } // End of excecute() (ballevator)
           // else
           // if(joy.GetStartButton()) {
           //   it.startstop(3);
