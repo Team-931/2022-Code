@@ -11,6 +11,7 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&intake) {
   ConfigureButtonBindings();
   drivetrain.SetDefaultCommand (drivebyStick);
   turret.SetDefaultCommand (turretbyStick);
+  intake.SetDefaultCommand (Intakebystick);
 }
 
 void RobotContainer::Init() {

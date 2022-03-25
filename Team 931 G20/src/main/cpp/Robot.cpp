@@ -27,9 +27,7 @@ void Robot::RobotPeriodic() {
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {
-  m_container.Init();
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
 
@@ -43,6 +41,8 @@ void Robot::AutonomousInit() {
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();
   }
+
+  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
 }
 
 void Robot::AutonomousPeriodic() {}
@@ -56,6 +56,8 @@ void Robot::TeleopInit() {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
   }
+
+  m_container.Init(); // setting the encoders based on absolute readings: does it work here?
 }
 
 /**

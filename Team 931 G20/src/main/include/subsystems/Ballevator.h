@@ -7,6 +7,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <rev/cansparkmax.h>
 #include <frc/AnalogInput.h>
+#include <frc/DigitalInput.h>
+
 
 
 class Ballevator : public frc2::SubsystemBase {
@@ -18,48 +20,52 @@ class Ballevator : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  /*
+  * Sends data about the ballevator status to the drivers
+  */
+  void ballcounter();
+
   /**
-  * start, stop, and rev
+  * start == 1, stop == 0 , and rev ==3
   * start runs towards the shooter
   * stop
   * rev runs towards the intake
   * Use the data from the distance sensors to determine true or false 
   */ 
-  void startstop ();
+  void startstop (int starter);
   
   /**
     * Sensor wrangling
     * Ballevator and BV will be used interchangebly
     * 
-    * Determines the location of the ball based on the voltage output of sensors 1,2, or 3
+    * Determines the location of the ball based on the voltage output of sensors 1 or 2
     * 
-    * if sensor 1 is triggered, but not sensor 2, or sensor 3 the function should return start
+    * if sensor 1 is triggered, but not sensor 2, the function should return start
     * 
-    * if sensor 2 is triggered, but not sensors 1 or 3, return stop
+    * if sensor 2 is triggered, but not sensors 1 return stop
     * 
-    * if both sensors 1 and 2 are triggered, but not sensor 3 the function should return start
+    * if both sensors 1 and 2 are triggered and the shoot button is pressed, the function should return start
     * 
-    * if sensors 2 and 3 are triggered, the funciton should return stop, and notify the drivers
+    * if sensors 1 and 2 are triggered, the funciton should return stop, and notify the drivers
          * that the BV is full, it should also disallow the driver from continuing to run the intake
-    * 
-    * if sensors 2 and 3 are triggered and the button to trigger the shooter is true, return true
-    * 
-    * If sensors 1, 2, and 3 are triggered, spin the intake in reverse, and run the BV in reverse
-    * until 2 or fewer sensors are triggered
+    *     * 
+    
     *   
     */
     int ballesense();
-
-  /**
+      /**
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.
    */
   void SimulationPeriodic() override;
 
  private:
-  frc::AnalogInput intakESense{0};
-  frc::AnalogInput baseSens{1};
-  frc::AnalogInput shootsens{2};
+  frc::DigitalInput intakesens;
+  frc::DigitalInput elevsens;
+
+  // frc::AnalogInput intakesense{0};
+  // frc::AnalogInput basesense{1};
+  // frc::AnalogInput shootsense{2};
   rev::CANSparkMax elevator;
 
 

@@ -26,11 +26,12 @@ namespace Constants {
         constexpr double turnGearing = 72.0/14*24/12, // maybe use std::ratio
             ticksPerRadian = 2048/2/wpi::numbers::pi*turnGearing,
             ticksPerAbsTick = turnGearing * 2048/*/ 4096*/; // todo: check this with hardware
+        constexpr int absSubtraction[] {3265, 2068, 135, 2673}; // to align the wheels
     } // namespace DriveTrain
     
     namespace Intake {
         constexpr int whnum {1}, /* motor, they help suck the ball in */
-        actnum {0}; /* mechanism that initiates intake mechanism*/
+        raisenum {4}, lownum {0}; /* mechanism that initiates intake mechanism*/
         constexpr double whpow = 0.75; //default power for the motor whnum
         
 
@@ -41,13 +42,16 @@ namespace Constants {
     namespace Turret{
         constexpr int turretrotator = 2; //refers to the turret rotator (rotates turret)
         constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
-        
+        constexpr int shooterLeft = 8, shooterRight = 9; 
+        constexpr double shooterSpdInit = 16400;
+        constexpr double rotMin = -150.924, rotMax = 140.7, elevMin = -3.4047, elevMax = -0.01;
     }
 
     //namespacefor the ball elevator
     namespace ballelavator{
 
             constexpr int ballelevator = 4;  //refers to the belavator (stores balls as ammo before being ejected)
+            constexpr int intakenum = 4, elevnum = 5; // DIO numbers for the infrared sensors
            
 
     }
