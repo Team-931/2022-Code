@@ -85,7 +85,8 @@ class RobotContainer {
           else
           if(joy.GetAButton()) it.ModifyAngle(1); // if the A button is pressed, then angle the turret downwards (based on positive coefficient)
           else
-           it.StayAtAngle()/*ModifyAngle(0)*/; //otherwise do nothing
+           it.StayAtAngle();// attempting to keep the cowl aligned at that angle 
+           /*ModifyAngle(0)*/ //otherwise do nothing
 // shoot??
           it.ShootTheBall (joy.GetRightBumper());
 
