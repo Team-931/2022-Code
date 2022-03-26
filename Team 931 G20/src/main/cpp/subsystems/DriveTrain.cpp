@@ -47,9 +47,11 @@ double QuadraticScaling(double x) { return (x < 0.0 ? -1.0 : 1.0) * x * x; }
 
 void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
                       bool fieldctr) {
+#ifdef DRIVE_TRAIN_DEBUG
   frc::SmartDashboard::PutNumber("linX", linX);
   frc::SmartDashboard::PutNumber("linY", linY);
   frc::SmartDashboard::PutNumber("rot", rot);
+#endif /* DRIVE_TRAIN_DEBUG */
   if (fieldctr) {
     // todo:
     double yaw = -wpi::numbers::pi / 180 * navx.GetYaw();
@@ -132,6 +134,7 @@ void SwerveModule::ScaleV(double scale) {
 void SwerveModule::Periodic() {
   // Implementation of subsystem periodic method goes here.
   drive.Set(speed);
+#ifdef DRIVE_TRAIN_DEBUG
   static int ctr = 0;
   if ((ctr++) % 5 == 0) {
     double ang = absAngle.GetAbsolutePosition();
@@ -140,6 +143,7 @@ void SwerveModule::Periodic() {
         GetName() + " encoder diff",
         turn.GetSelectedSensorPosition() + ticksPerAbsTick * ang);
   }
+#endif /* DRIVE_TRAIN_DEBUG */
 }
 void DriveTrain::Init() {
   for (auto& wheel : wheels) wheel.Init();

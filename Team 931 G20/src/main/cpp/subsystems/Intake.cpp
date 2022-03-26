@@ -10,31 +10,20 @@ using namespace Constants::Intake;
 Intake::Intake()
     : wheels(whnum, rev::CANSparkMax::MotorType::kBrushless),
       raiser(frc::PneumaticsModuleType::CTREPCM, raisenum, lownum),
-      running(false) {
-  // Implementation of subsystem constructor goes here.
+      deployed(false) {
   wheels.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
 
 void Intake::Periodic() {
-  // Implementation of subsystem periodic method goes here.
-  if (running)
+  if (deployed) {
     wheels.Set(whpow);
-  else
+    raiser.Set(frc::DoubleSolenoid::kForward);
+  } else {
     wheels.Set(0);
+  }
 }
 
-void Intake::startstop(bool on) { running = on; }
-
-void Intake::raiselower(bool on) {
-  raiser.Set(on ? frc::DoubleSolenoid::kForward
-                : frc::DoubleSolenoid::kReverse);
-}
-
-void Intake::toggleraiser() {
-  raiser.Set(frc::DoubleSolenoid::kReverse == raiser.Get()
-                 ? frc::DoubleSolenoid::kForward
-                 : frc::DoubleSolenoid::kReverse);
-}
+void Intake::SetDeployed(bool d) { deployed = d; }
 
 void Intake::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.

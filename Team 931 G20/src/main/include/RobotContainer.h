@@ -6,6 +6,7 @@
 
 #include <frc/Joystick.h>
 #include <frc/XboxController.h>  //this is the file containing connection to xbox controller
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Command.h>
 
 #include "commands/ExampleCommand.h"
@@ -13,6 +14,18 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Turret.h"
+
+#define BALLEVATOR_IDLE 0
+#define BALLEVATOR_READY 1
+#define BALLEVATOR_LOADING 2
+#define BALLEVATOR_HOLD 3
+#define BALLEVATOR_FIRE 4
+
+const double BALLEVATOR_SPEED_IDLE = 0.0;
+const double BALLEVATOR_SPEED_READY = 0.7;
+const double BALLEVATOR_SPEED_LOADING = 0.3;
+const double BALLEVATOR_SPEED_HOLD = 0.0;
+const double BALLEVATOR_SPEED_FIRE = 1.0;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -72,35 +85,22 @@ class RobotContainer {
     TurbyStick(Turret& t, frc::XboxController& j) : it(t), joy(j) {
       AddRequirements(&t);
     }
-    void Execute() override {  // constantly waiting  for input for turret
+    void Execute() override {
+      // Operator inputs
+      bool auto_target = joy.GetBButton();
+      double turret_manual_yaw = joy.GetRightX();
+      double turret_manual_speed = joy.GetLeftY();
+      frc::SmartDashboard::PutBoolean("auto_target", auto_target);
+      frc::SmartDashboard::PutNumber("manual_yaw", turret_manual_yaw);
+      frc::SmartDashboard::PutNumber("manual_speed", turret_manual_speed);
 
-      // modifying turret rotation
-      if (joy.GetXButton())
-        it.RotateTurret(
-            1);  // if the x button is pressed, then rotate the turret to the
-                 // left(counterclockwise) (based on positive coefficient)
-      else if (joy.GetBButton())
-        it.RotateTurret(
-            -1);  // if the b button is pressed, then rotate the turret to the
-                  // right(clockwise) (based on negative coefficient)
-      else
-        it.RotateTurret(0);  // otherwise do nothing
-
-      // modifying turret angle (elevation)
-      if (joy.GetYButton())
-        it.ModifyAngle(-1);  // if the Y button is pressed, then angle the
-                             // turret upwards (based on negative coefficient)
-      else if (joy.GetAButton())
-        it.ModifyAngle(1);  // if the A button is pressed, then angle the turret
-                            // downwards (based on positive coefficient)
-      else
-        it.StayAtAngle();  // attempting to keep the cowl aligned at that angle
-      /*ModifyAngle(0)*/   // otherwise do nothing
-      // shoot??
-      it.ShootTheBall(joy.GetRightBumper());
-
-      double shootChg = joy.GetLeftY();
-      if (std::abs(shootChg) >= .1) it.IncShooterSpeed(-shootChg);
+      // Control robot
+      if (auto_target) {
+        it.AutoTarget(true, true);
+      } else {
+        it.ShooterSpeed(std::abs(turret_manual_speed));
+        it.RotateTurret(turret_manual_yaw);
+      }
     }
     Turret& it;
     frc::XboxController& joy;
@@ -112,20 +112,24 @@ class RobotContainer {
       AddRequirements(&i);
     }
     void Execute() override {
-#if 1
-      if (joy.GetLeftBumper()) {
-        it.raiselower(false);
-        it.startstop(true);
+      // State Variables
+      static bool intake_deployed = false;
+      frc::SmartDashboard::PutBoolean("intake_deployed", intake_deployed);
+
+      // Operator Inputs
+      bool intake_deploy = joy.GetRightBumper();
+      bool intake_raise = joy.GetLeftBumper();
+
+      // State update logic
+      if (intake_deploy && !intake_raise) {
+        intake_deployed = true;
       }
-#else
-      if (joy.GetLeftBumperPressed()) it.toggleraiser();
-#endif
-      // if the right bumper is pressed, then lower the intake and run the
-      // wheels
-      else {
-        it.startstop(false);
-        it.raiselower(true);
+      if (intake_raise && !intake_deploy) {
+        intake_deployed = false;
       }
+
+      // Control robot
+      it.SetDeployed(intake_deployed);
     }
     Intake& it;
     frc::XboxController& joy;
@@ -136,33 +140,59 @@ class RobotContainer {
       AddRequirements(&b);
     }
     void Execute() override {
-      // Previous  Obi code
-      if (joy.GetLeftBumper())
-        it.startstop(1);
-      else
-        it.startstop(0);
+      // State Variables
+      static int ballevator_state = BALLEVATOR_IDLE;
+      frc::SmartDashboard::PutString(
+          "ballevator_state",
+          ballevator_state == BALLEVATOR_IDLE      ? "IDLE"
+          : ballevator_state == BALLEVATOR_READY   ? "READY"
+          : ballevator_state == BALLEVATOR_LOADING ? "LOADING"
+          : ballevator_state == BALLEVATOR_HOLD    ? "HOLD"
+          : ballevator_state == BALLEVATOR_FIRE    ? "FIRE"
+                                                   : "UNKNOWN");
 
-      // Nevin Update 1
-      // Nevin's attempt at coding the ballevator to work based on button input
-      /*
-      //what sensor variables do we need to change if the ball is shot?
+      // Operator and Sensor Inputs
+      bool intake_sensor = it.IntakeSensor();
+      bool second_sensor = it.SecondSensor();
+      bool firefirefire = joy.GetAButton();
 
-    if(joy.GetXButton()) // if the x button is pressed
-     if(it.ballesense() <= 1) //check if there is only one ball or less in the
-    ball ammo holder it.startstop(0.1); // For now set default to 0.1, will
-    eventually be based on input though else it.set(0) // do nothing
+      // This is a bit ugly, but I'm not familiar enough with this whole
+      // "subsystems and commands" framework to do it better. All we need
+      // here is to take into account whether the intake is deployed so
+      // that the elevator can turn off when it's not needed, but the
+      // easiest way I could find to do that was to copy-paste the same
+      // state update logic instead of just *asking* the relevant subsystem.
+      static bool intake_deployed = false;
+      bool intake_deploy = joy.GetRightBumper();
+      bool intake_raise = joy.GetLeftBumper();
+      if (intake_deploy && !intake_raise) {
+        intake_deployed = true;
+      }
+      if (intake_raise && !intake_deploy) {
+        intake_deployed = false;
+      }
 
-
-      */
-
-      // if(joy.GetLeftBumper())
-
-    }  // End of excecute() (ballevator)
-       // else
-       // if(joy.GetStartButton()) {
-       //   it.startstop(3);
-       // }
-
+      // State update + robot control logic
+      if (firefirefire) {
+        ballevator_state = BALLEVATOR_FIRE;
+        it.SetSpeed(BALLEVATOR_SPEED_FIRE);
+      } else if (second_sensor) {
+        ballevator_state = BALLEVATOR_HOLD;
+        it.SetSpeed(BALLEVATOR_SPEED_HOLD);
+      } else if (intake_sensor) {
+        ballevator_state = BALLEVATOR_LOADING;
+        it.SetSpeed(BALLEVATOR_SPEED_LOADING);
+      } else if (ballevator_state == BALLEVATOR_IDLE && intake_deployed) {
+        ballevator_state = BALLEVATOR_READY;
+        it.SetSpeed(BALLEVATOR_SPEED_READY);
+      } else if (ballevator_state == BALLEVATOR_READY && !intake_deployed) {
+        ballevator_state = BALLEVATOR_IDLE;
+        it.SetSpeed(BALLEVATOR_SPEED_IDLE);
+      } else if (ballevator_state == BALLEVATOR_FIRE && !firefirefire) {
+        ballevator_state = BALLEVATOR_READY;
+        it.SetSpeed(BALLEVATOR_SPEED_READY);
+      }
+    }
     Ballevator& it;
     frc::XboxController& joy;
   } Ballelevate{ballevator, operatorstick};

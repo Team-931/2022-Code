@@ -18,6 +18,7 @@ class Ballevator : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+<<<<<<< HEAD
   /*
    * Sends data about the ballevator status to the drivers
    */
@@ -57,6 +58,13 @@ class Ballevator : public frc2::SubsystemBase {
     */
   int ballesense();
   /**
+=======
+  void SetSpeed(double speed);
+  bool IntakeSensor();
+  bool SecondSensor();
+
+  /**
+>>>>>>> 93d5aa8 (Rewrite intake/elevator/turret subsystems and commands)
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.
    */
@@ -65,13 +73,12 @@ class Ballevator : public frc2::SubsystemBase {
  private:
   frc::DigitalInput intakesens;
   frc::DigitalInput elevsens;
-
-  // frc::AnalogInput intakesense{0};
-  // frc::AnalogInput basesense{1};
-  // frc::AnalogInput shootsense{2};
   rev::CANSparkMax elevator;
   float elevpower = 0;
+<<<<<<< HEAD
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+=======
+>>>>>>> 93d5aa8 (Rewrite intake/elevator/turret subsystems and commands)
 };

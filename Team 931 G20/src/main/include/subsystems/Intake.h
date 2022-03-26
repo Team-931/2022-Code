@@ -14,20 +14,7 @@ class Intake : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  /**
-   * true starts intake; false stops it.
-   */
-  void startstop(bool);
-
-  /**
-   * true raises intake; false lowers it.
-   */
-  void raiselower(bool);
-
-  /**
-   * lower if up, raise if downs
-   */
-  void toggleraiser();
+  void SetDeployed(bool deployed);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs during
@@ -40,5 +27,5 @@ class Intake : public frc2::SubsystemBase {
   // declared private and exposed only through public methods.
   rev::CANSparkMax wheels;
   frc::DoubleSolenoid raiser;
-  bool running;
+  bool deployed;
 };

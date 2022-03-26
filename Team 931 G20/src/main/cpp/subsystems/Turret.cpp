@@ -16,9 +16,7 @@ Turret::Turret()
       elevPos(anglechanger.GetEncoder()),
       elevCtrl(anglechanger.GetPIDController()),
       shooterL(shooterLeft),
-      shooterR(shooterRight),
-      shooterSpd(shooterSpdInit) {
-  // Implementation of Turret constructor.
+      shooterR(shooterRight) {
   rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   rotator.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, true);
   rotator.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, rotMax);
@@ -40,58 +38,14 @@ Turret::Turret()
   shooterR.Config_kP(0, .1);
 }
 
-void Turret::Periodic() {
-  // Implementation of Turret periodic method.
-  // Testing: report positions of rotator and anglechanger
-  static int counter = 0;
-  if ((counter++) % 16 == 0) {
-    frc::SmartDashboard::PutNumber("rotator position", rotPos.GetPosition());
-    frc::SmartDashboard::PutNumber("anglechanger position",
-                                   elevPos.GetPosition());
-  }
+void Turret::Periodic() {}
+
+void Turret::RotateTurret(double speed) { rotator.Set(speed); }
+
+void Turret::ShooterSpeed(double speed) {
+  shooterR.Set(TalonFXControlMode::Velocity, speed);
 }
 
-void Turret::ShootTheBall(bool on) {
-  // Shoots the ball into the basket
-  if (on)
-    shooterR.Set(TalonFXControlMode::Velocity, shooterSpd);
-  else
-    shooterR.Set(0);
-}
-
-void Turret::IncShooterSpeed(double inc) {
-  shooterSpd += inc * 100;
-  frc::SmartDashboard::PutNumber("shooter speed", shooterSpd);
-}
-
-void Turret::ModifyAngle(
-    double coeff) {  // for now, this function works based on the coefficient
-                     // sent to it (1 or -1) to change direction
-  // Modifies the angle at which the turret is set through power (in constants.h
-  // file) (up down/ how much it is it angled)
-
-  double power =
-      coeff *
-      anglechangerpower;  // multiplies anglechangerpower (in constants.h by 1
-                          // or negative 1 based on parameter sent )
-
-  anglechanger.Set(power);
-}
-
-void Turret::StayAtAngle() {
-  elevCtrl.SetReference(elevPos.GetPosition(),
-                        rev::CANSparkMax::ControlType::kPosition);
-}
-
-void Turret::RotateTurret(
-    double coeff) {  // for now, this function works based on the coefficient
-                     // sent to it (1 or -1) to change direction
-  // rotates the turret (has a set amount of degrees at which it can be turned
-  // based on motor power)
-
-  double power =
-      coeff *
-      rotatorpower;  // multiplies constants by 1 or -1 to change direction
-
-  rotator.Set(power);
+void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
+  // TODO: Implement this using camera
 }
