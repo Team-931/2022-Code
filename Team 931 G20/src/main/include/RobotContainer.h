@@ -22,10 +22,17 @@
 #define BALLEVATOR_FIRE 4
 
 const double BALLEVATOR_SPEED_IDLE = 0.0;
-const double BALLEVATOR_SPEED_READY = 0.8;
-const double BALLEVATOR_SPEED_LOADING = 0.7;
+const double BALLEVATOR_SPEED_READY = 0.75;
+const double BALLEVATOR_SPEED_LOADING = 0.65;
 const double BALLEVATOR_SPEED_HOLD = 0.0;
 const double BALLEVATOR_SPEED_FIRE = 1.0;
+
+const double TURRET_YAW_DEADZONE = 0.2;
+const double TURRET_SPEED_DEADZONE = 0.2;
+
+/* HACK(wgd): This should probably live somewhere more 'utilities-ish'
+   and not just be forward-declared here, but this is faster. */
+double CalculateDeadZone(double deadzone, double x);
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -86,21 +93,40 @@ class RobotContainer {
       AddRequirements(&t);
     }
     void Execute() override {
-      // Operator inputs
-      bool auto_target = joy.GetBButton();
-      double turret_manual_yaw = -joy.GetRightX();
-      double turret_manual_speed = std::abs(joy.GetLeftY());
+      // State Variables
+      static bool auto_target = true;
       frc::SmartDashboard::PutBoolean("auto_target", auto_target);
+
+      // Operator inputs
+      bool auto_target_toggle = joy.GetBButtonPressed();
+      double turret_manual_yaw =
+          CalculateDeadZone(TURRET_YAW_DEADZONE, -joy.GetRightX());
+      double turret_manual_speed =
+          CalculateDeadZone(TURRET_SPEED_DEADZONE, std::abs(joy.GetLeftY()));
       frc::SmartDashboard::PutNumber("manual_yaw", turret_manual_yaw);
       frc::SmartDashboard::PutNumber("manual_speed", turret_manual_speed);
 
-      // Control robot
-      if (auto_target) {
-        it.AutoTarget(true, true);
-      } else {
-        it.ShooterSpeed(turret_manual_speed);
-        it.RotateTurret(turret_manual_yaw);
+      // State update
+      if (auto_target_toggle) {
+        auto_target = !auto_target;
       }
+
+      // Control robot
+      bool auto_target_yaw = false;
+      if (turret_manual_yaw != 0.0) {
+        it.RotateTurret(turret_manual_yaw);
+      } else if (auto_target) {
+        auto_target_yaw = true;
+      }
+
+      bool auto_target_speed = false;
+      if (turret_manual_speed != 0.0) {
+        it.ShooterSpeed(turret_manual_speed);
+      } else if (auto_target) {
+        auto_target_speed = true;
+      }
+
+      it.AutoTarget(auto_target_yaw, auto_target_speed);
     }
     Turret& it;
     frc::XboxController& joy;
