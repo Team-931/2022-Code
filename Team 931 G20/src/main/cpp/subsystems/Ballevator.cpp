@@ -17,9 +17,9 @@ void Ballevator::Periodic() { elevator.Set(elevpower); }
 
 void Ballevator::SetSpeed(double speed) { elevpower = speed; }
 
-bool Ballevator::IntakeSensor() { return intakesens.Get(); }
+bool Ballevator::IntakeSensor() { return !intakesens.Get(); }
 
-bool Ballevator::SecondSensor() { return elevsens.Get(); }
+bool Ballevator::SecondSensor() { return !elevsens.Get(); }
 
 void Ballevator::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.

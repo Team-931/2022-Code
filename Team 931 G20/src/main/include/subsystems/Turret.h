@@ -26,4 +26,5 @@ class Turret : public frc2::SubsystemBase {
   rev::SparkMaxRelativeEncoder rotPos, elevPos;
   rev::SparkMaxPIDController elevCtrl;
   WPI_TalonFX shooterL, shooterR;
+  double shooterSpeed;
 };

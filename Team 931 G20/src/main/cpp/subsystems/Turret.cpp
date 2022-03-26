@@ -16,7 +16,8 @@ Turret::Turret()
       elevPos(anglechanger.GetEncoder()),
       elevCtrl(anglechanger.GetPIDController()),
       shooterL(shooterLeft),
-      shooterR(shooterRight) {
+      shooterR(shooterRight),
+      shooterSpeed(0.0) {
   rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   rotator.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, true);
   rotator.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, rotMax);
@@ -35,16 +36,17 @@ Turret::Turret()
   shooterL.Follow(shooterR);
   shooterL.SetInverted(TalonFXInvertType::OpposeMaster);
   shooterR.SetInverted(TalonFXInvertType::Clockwise);
-  shooterR.Config_kP(0, .1);
+  // shooterR.Config_kP(0, .1);
 }
 
-void Turret::Periodic() {}
-
-void Turret::RotateTurret(double speed) { rotator.Set(speed); }
-
-void Turret::ShooterSpeed(double speed) {
-  shooterR.Set(TalonFXControlMode::Velocity, speed);
+void Turret::Periodic() {
+  frc::SmartDashboard::PutNumber("shooterSpeed", shooterSpeed);
+  shooterR.Set(TalonFXControlMode::PercentOutput, shooterSpeed);
 }
+
+void Turret::RotateTurret(double speed) { rotator.Set(speed * rotatorpower); }
+
+void Turret::ShooterSpeed(double speed) { shooterSpeed = speed; }
 
 void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
   // TODO: Implement this using camera

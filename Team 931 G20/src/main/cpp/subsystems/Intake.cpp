@@ -17,9 +17,10 @@ Intake::Intake()
 void Intake::Periodic() {
   if (deployed) {
     wheels.Set(whpow);
-    raiser.Set(frc::DoubleSolenoid::kForward);
+    raiser.Set(frc::DoubleSolenoid::kReverse);
   } else {
     wheels.Set(0);
+    raiser.Set(frc::DoubleSolenoid::kForward);
   }
 }
 

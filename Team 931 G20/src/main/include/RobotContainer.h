@@ -22,8 +22,8 @@
 #define BALLEVATOR_FIRE 4
 
 const double BALLEVATOR_SPEED_IDLE = 0.0;
-const double BALLEVATOR_SPEED_READY = 0.7;
-const double BALLEVATOR_SPEED_LOADING = 0.3;
+const double BALLEVATOR_SPEED_READY = 0.8;
+const double BALLEVATOR_SPEED_LOADING = 0.7;
 const double BALLEVATOR_SPEED_HOLD = 0.0;
 const double BALLEVATOR_SPEED_FIRE = 1.0;
 
@@ -88,8 +88,8 @@ class RobotContainer {
     void Execute() override {
       // Operator inputs
       bool auto_target = joy.GetBButton();
-      double turret_manual_yaw = joy.GetRightX();
-      double turret_manual_speed = joy.GetLeftY();
+      double turret_manual_yaw = -joy.GetRightX();
+      double turret_manual_speed = std::abs(joy.GetLeftY());
       frc::SmartDashboard::PutBoolean("auto_target", auto_target);
       frc::SmartDashboard::PutNumber("manual_yaw", turret_manual_yaw);
       frc::SmartDashboard::PutNumber("manual_speed", turret_manual_speed);
@@ -98,7 +98,7 @@ class RobotContainer {
       if (auto_target) {
         it.AutoTarget(true, true);
       } else {
-        it.ShooterSpeed(std::abs(turret_manual_speed));
+        it.ShooterSpeed(turret_manual_speed);
         it.RotateTurret(turret_manual_yaw);
       }
     }
@@ -155,6 +155,8 @@ class RobotContainer {
       bool intake_sensor = it.IntakeSensor();
       bool second_sensor = it.SecondSensor();
       bool firefirefire = joy.GetAButton();
+      frc::SmartDashboard::PutBoolean("intake_sensor", intake_sensor);
+      frc::SmartDashboard::PutBoolean("second_sensor", second_sensor);
 
       // This is a bit ugly, but I'm not familiar enough with this whole
       // "subsystems and commands" framework to do it better. All we need

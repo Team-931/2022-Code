@@ -53,7 +53,7 @@ constexpr int turretangler = 3;  // refers to the turret cowl (angles the
                                  // turret)
 constexpr int shooterLeft = 8, shooterRight = 9;
 constexpr double shooterSpdInit = 16400;
-constexpr double rotMin = -149, rotMax = 134, elevMin = -3.4047,
+constexpr double rotMin = -125, rotMax = 110, elevMin = -3.4047,
                  elevMax = -0.01;
 constexpr double rotatorpower = 0.3;  // this is the default power of the turret
                                       // rotator (default is positive)
