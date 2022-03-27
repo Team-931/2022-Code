@@ -23,11 +23,12 @@ anglechanger.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, tru
 anglechanger.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, elevMax);
 anglechanger.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, true);
 anglechanger.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, elevMin);
-elevCtrl.SetP(.1);
+elevCtrl.SetP(elevCtlP);
 shooterL.Follow(shooterR);
 shooterL.SetInverted(TalonFXInvertType::OpposeMaster);
 shooterR.SetInverted(TalonFXInvertType::Clockwise);
-shooterR.Config_kP(0,.1);
+shooterR.Config_kP(0, shooterCtlP);
+shooterR.Config_kI(0, shooterCtlI);
 }
 
 void Turret::Periodic() {
@@ -37,6 +38,7 @@ void Turret::Periodic() {
     if ((counter++) % 16 == 0) {
         frc::SmartDashboard::PutNumber ("rotator position", rotPos.GetPosition());
         frc::SmartDashboard::PutNumber ("anglechanger position", elevPos.GetPosition());
+        frc::SmartDashboard::PutNumber ("actual shooter speed", shooterR.GetSelectedSensorVelocity());
     }
 
 }

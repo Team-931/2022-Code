@@ -46,10 +46,12 @@ namespace Constants {
         constexpr int turretrotator = 2; //refers to the turret rotator (rotates turret)
         constexpr int turretangler = 3; //refers to the turret cowl (angles the turret)
         constexpr int shooterLeft = 8, shooterRight = 9; 
-        constexpr double shooterSpdInit = 16400;
-        constexpr double rotMin = -149, rotMax = 134, elevMin = -3.4047, elevMax = -0.01;
+        constexpr double shooterSpdInit = 11000;
+        constexpr double rotMin = -149, rotMax = 134, elevMin = -120, elevMax = -0.01;
         constexpr double rotatorpower = 0.3; // this is the default power of the turret rotator (default is positive)
-        constexpr double anglechangerpower = 0.1; //this is the power of the angle changer (default is positive)
+        constexpr double anglechangerpower = 1.0; //this is the power of the angle changer (default is positive)
+        constexpr double shooterCtlP = .1, shooterCtlI = .0001,
+                         elevCtlP = .05, elevCtlI = 0; 
 
     }
 
