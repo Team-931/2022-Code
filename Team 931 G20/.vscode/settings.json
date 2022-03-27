@@ -20,6 +20,7 @@
     "numbers": "cpp",
     "type_traits": "cpp",
     "cmath": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "limits": "cpp"
   }
 }

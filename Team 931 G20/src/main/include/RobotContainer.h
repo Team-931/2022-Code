@@ -27,7 +27,8 @@ const double BALLEVATOR_SPEED_LOADING = 0.65;
 const double BALLEVATOR_SPEED_HOLD = 0.0;
 const double BALLEVATOR_SPEED_FIRE = 1.0;
 
-const double TURRET_YAW_DEADZONE = 0.2;
+const double TURRET_YAW_DEADZONE = 0.25;
+const double TURRET_ANGLE_DEADZONE = 0.2;
 const double TURRET_SPEED_DEADZONE = 0.2;
 
 /* HACK(wgd): This should probably live somewhere more 'utilities-ish'
@@ -98,12 +99,16 @@ class RobotContainer {
       frc::SmartDashboard::PutBoolean("auto_target", auto_target);
 
       // Operator inputs
+      bool firefirefire = joy.GetAButton();
       bool auto_target_toggle = joy.GetBButtonPressed();
       double turret_manual_yaw =
           CalculateDeadZone(TURRET_YAW_DEADZONE, -joy.GetRightX());
+      double turret_manual_angle =
+          CalculateDeadZone(TURRET_ANGLE_DEADZONE, -joy.GetRightY());
       double turret_manual_speed =
-          CalculateDeadZone(TURRET_SPEED_DEADZONE, std::abs(joy.GetLeftY()));
+          CalculateDeadZone(TURRET_SPEED_DEADZONE, -joy.GetLeftY());
       frc::SmartDashboard::PutNumber("manual_yaw", turret_manual_yaw);
+      frc::SmartDashboard::PutNumber("manual_angle", turret_manual_angle);
       frc::SmartDashboard::PutNumber("manual_speed", turret_manual_speed);
 
       // State update
@@ -112,6 +117,8 @@ class RobotContainer {
       }
 
       // Control robot
+      it.Fire(firefirefire);
+
       bool auto_target_yaw = false;
       if (turret_manual_yaw != 0.0) {
         it.RotateTurret(turret_manual_yaw);
@@ -119,14 +126,16 @@ class RobotContainer {
         auto_target_yaw = true;
       }
 
-      bool auto_target_speed = false;
-      if (turret_manual_speed != 0.0) {
-        it.ShooterSpeed(turret_manual_speed);
+      it.AdjustSpeed(turret_manual_speed);
+
+      bool auto_target_pitch = false;
+      if (turret_manual_angle != 0.0) {
+        it.AdjustAngle(turret_manual_angle);
       } else if (auto_target) {
-        auto_target_speed = true;
+        auto_target_pitch = true;
       }
 
-      it.AutoTarget(auto_target_yaw, auto_target_speed);
+      it.AutoTarget(auto_target_yaw, auto_target_pitch);
     }
     Turret& it;
     frc::XboxController& joy;

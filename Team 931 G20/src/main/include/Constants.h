@@ -52,13 +52,18 @@ constexpr int turretrotator =
 constexpr int turretangler = 3;  // refers to the turret cowl (angles the
                                  // turret)
 constexpr int shooterLeft = 8, shooterRight = 9;
-constexpr double shooterSpdInit = 16400;
-constexpr double rotMin = -125, rotMax = 110, elevMin = -3.4047,
-                 elevMax = -0.01;
-constexpr double rotatorpower = 0.3;  // this is the default power of the turret
-                                      // rotator (default is positive)
-constexpr double anglechangerpower =
-    0.1;  // this is the power of the angle changer (default is positive)
+
+constexpr double shooterSpdInit = 11000;
+constexpr double rotMin = -125, rotMax = 110;
+constexpr double elevMin = 0.01, elevMax = 120;
+
+// Scales the rate of adjustment to turret rotation and
+// angle changer positions.
+constexpr double rotatorpower = 0.3;
+constexpr double anglechangerpower = 1.0;
+
+constexpr double shooterCtlP = 0.1, shooterCtlI = 0.0001;
+constexpr double elevCtlP = 0.05, elevCtlI = 0.0;
 
 }  // namespace Turret
 

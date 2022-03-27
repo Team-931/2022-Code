@@ -15,9 +15,11 @@ class Turret : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void Fire(bool isFiring);
   void RotateTurret(double speed);
-  void ShooterSpeed(double speed);
-  void AutoTarget(bool auto_yaw, bool auto_speed);
+  void AdjustAngle(double speed);
+  void AdjustSpeed(double speed);
+  void AutoTarget(bool auto_yaw, bool auto_pitch);
 
  private:
   rev::CANSparkMax rotator;       // motor used to rotate the turret
@@ -27,4 +29,5 @@ class Turret : public frc2::SubsystemBase {
   rev::SparkMaxPIDController elevCtrl;
   WPI_TalonFX shooterL, shooterR;
   double shooterSpeed;
+  double shooterAngle;
 };

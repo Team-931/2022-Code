@@ -14,6 +14,8 @@
 
 using namespace Constants::Turret;
 
+double EstimateAngleFromCamera(double ty);
+
 Turret::Turret()
     : rotator(turretrotator, rev::CANSparkMax::MotorType::kBrushless),
       anglechanger(turretangler, rev::CANSparkMax::MotorType::kBrushless),
@@ -22,7 +24,7 @@ Turret::Turret()
       elevCtrl(anglechanger.GetPIDController()),
       shooterL(shooterLeft),
       shooterR(shooterRight),
-      shooterSpeed(0.0) {
+      shooterSpeed(shooterSpdInit) {
   rotator.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   rotator.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, true);
   rotator.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, rotMax);
@@ -37,23 +39,49 @@ Turret::Turret()
                                true);
   anglechanger.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse,
                             elevMin);
-  elevCtrl.SetP(.1);
+  anglechanger.SetInverted(true);
+  elevCtrl.SetP(elevCtlP);
+  elevCtrl.SetI(elevCtlI);
   shooterL.Follow(shooterR);
   shooterL.SetInverted(TalonFXInvertType::OpposeMaster);
   shooterR.SetInverted(TalonFXInvertType::Clockwise);
-  // shooterR.Config_kP(0, .1);
+  shooterR.Config_kP(0, shooterCtlP);
+  shooterR.Config_kI(0, shooterCtlI);
 }
 
 void Turret::Periodic() {
-  frc::SmartDashboard::PutNumber("shooterSpeed", shooterSpeed);
-  shooterR.Set(TalonFXControlMode::PercentOutput, shooterSpeed);
+  frc::SmartDashboard::PutNumber("shooterSpeed(target)", shooterSpeed);
+  frc::SmartDashboard::PutNumber("shooterSpeed(actual)",
+                                 shooterR.GetSelectedSensorVelocity());
+  frc::SmartDashboard::PutNumber("shooterAngle(target)", shooterAngle);
+  elevCtrl.SetReference(shooterAngle, rev::CANSparkMax::ControlType::kPosition);
 }
 
-void Turret::RotateTurret(double speed) { rotator.Set(speed * rotatorpower); }
+void Turret::Fire(bool isFiring) {
+  if (isFiring) {
+    shooterR.Set(TalonFXControlMode::Velocity, shooterSpeed);
+  } else {
+    shooterR.Set(0.0);  // Power zero, skipping PID
+  }
+}
 
-void Turret::ShooterSpeed(double speed) { shooterSpeed = speed; }
+void Turret::RotateTurret(double rate) { rotator.Set(rate * rotatorpower); }
 
-void Turret::AutoTarget(bool auto_yaw, bool auto_speed) {
+// Adjust the "angle changer" position
+void Turret::AdjustAngle(double rate) {
+  shooterAngle += rate * 2.0;
+  shooterAngle = std::clamp(shooterAngle, elevMin, elevMax);
+}
+
+// Set the shooter speed (from -1.0 to +1.0)
+void Turret::AdjustSpeed(double rate) {
+  // The motor's maximum rated speed is 6,380 RPM, the encoder has
+  // 2,048 counts/revolution, and motor velocities are in units of
+  // "counts per 100ms", so the theoretical max speed is 21,777.
+  shooterSpeed += rate * 100.0;
+}
+
+void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
   std::shared_ptr<nt::NetworkTable> table =
       nt::NetworkTableInstance::GetDefault().GetTable("limelight-chaos");
   double tx = table->GetNumber("tx", 0.0);
@@ -80,10 +108,35 @@ void Turret::AutoTarget(bool auto_yaw, bool auto_speed) {
     rotator.Set(rotate);
   }
 
-  if (auto_speed) {
-    // TODO(wgd): Use height/distance measurement from camera,
-    // look up against a table of empirically determined values
-    // (probably interpolating), and apply that speed/power to
-    // the motor.
+  if (auto_pitch) {
+    shooterAngle = 60.0;
+    // shooterAngle = EstimateAngleFromCamera(ty);
   }
+}
+
+// The lookup table starts with an "infinitely low" point so that
+// the indexing math can work.
+#define DBL_MIN std::numeric_limits<double>::lowest()
+const std::vector<double> auto_pitch_ty = {DBL_MIN, 0.0, 0.5, 1.0};
+const std::vector<double> auto_pitch_angle = {0.0, 0.0, 0.0, 0.0};
+
+double EstimateAngleFromCamera(double ty) {
+  // Find the two closest 'Target Y' and 'Angle' values in the
+  // lookup table.
+  double ty_a = 0.0, ty_b = 0.0;
+  double angle_a = 0.0, angle_b = 0.0;
+  for (int idx = 1; idx < (int)auto_pitch_ty.size(); idx++) {
+    if (auto_pitch_ty[idx] < ty) {
+      continue;
+    }
+    ty_a = auto_pitch_ty[idx - 1];
+    ty_b = auto_pitch_ty[idx];
+    angle_a = auto_pitch_angle[idx - 1];
+    angle_b = auto_pitch_angle[idx];
+    break;
+  }
+
+  // Linearly interpolate between the two closest values
+  double alpha = (ty - ty_a) / (ty_b - ty_a);
+  return angle_a * (1.0 - alpha) + angle_b * alpha;
 }
