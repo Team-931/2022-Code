@@ -15,6 +15,7 @@ class Intake : public frc2::SubsystemBase {
   void Periodic() override;
 
   void SetDeployed(bool deployed);
+  bool IsDeployed();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs during

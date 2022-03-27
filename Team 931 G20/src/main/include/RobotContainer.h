@@ -20,12 +20,14 @@
 #define BALLEVATOR_LOADING 2
 #define BALLEVATOR_HOLD 3
 #define BALLEVATOR_FIRE 4
+#define BALLEVATOR_REVERSE 5
 
 const double BALLEVATOR_SPEED_IDLE = 0.0;
 const double BALLEVATOR_SPEED_READY = 0.75;
 const double BALLEVATOR_SPEED_LOADING = 0.65;
 const double BALLEVATOR_SPEED_HOLD = 0.0;
 const double BALLEVATOR_SPEED_FIRE = 1.0;
+const double BALLEVATOR_SPEED_REVERSE = -1.0;
 
 const double TURRET_YAW_DEADZONE = 0.25;
 const double TURRET_ANGLE_DEADZONE = 0.2;
@@ -124,6 +126,8 @@ class RobotContainer {
         it.RotateTurret(turret_manual_yaw);
       } else if (auto_target) {
         auto_target_yaw = true;
+      } else {
+        it.RotateTurret(turret_manual_yaw);
       }
 
       it.AdjustSpeed(turret_manual_speed);
@@ -171,7 +175,8 @@ class RobotContainer {
   } Intakebystick{intake, operatorstick};
 
   struct Ballevate : public frc2::CommandHelper<frc2::CommandBase, Ballevate> {
-    Ballevate(Ballevator& b, frc::XboxController& j) : it(b), joy(j) {
+    Ballevate(Ballevator& b, Turret& t, Intake& n, frc::XboxController& j)
+        : it(b), turret(t), intake(n), joy(j) {
       AddRequirements(&b);
     }
     void Execute() override {
@@ -190,49 +195,50 @@ class RobotContainer {
       bool intake_sensor = it.IntakeSensor();
       bool second_sensor = it.SecondSensor();
       bool firefirefire = joy.GetAButton();
+      bool force_reverse = joy.GetBackButton();
+      frc::SmartDashboard::PutBoolean("firing", firefirefire);
       frc::SmartDashboard::PutBoolean("intake_sensor", intake_sensor);
       frc::SmartDashboard::PutBoolean("second_sensor", second_sensor);
 
-      // This is a bit ugly, but I'm not familiar enough with this whole
-      // "subsystems and commands" framework to do it better. All we need
-      // here is to take into account whether the intake is deployed so
-      // that the elevator can turn off when it's not needed, but the
-      // easiest way I could find to do that was to copy-paste the same
-      // state update logic instead of just *asking* the relevant subsystem.
-      static bool intake_deployed = false;
-      bool intake_deploy = joy.GetRightBumper();
-      bool intake_raise = joy.GetLeftBumper();
-      if (intake_deploy && !intake_raise) {
-        intake_deployed = true;
-      }
-      if (intake_raise && !intake_deploy) {
-        intake_deployed = false;
-      }
-
       // State update + robot control logic
-      if (firefirefire) {
+      if (force_reverse) {
+        ballevator_state = BALLEVATOR_REVERSE;
+        it.SetSpeed(BALLEVATOR_SPEED_REVERSE);
+      } else if (ballevator_state == BALLEVATOR_REVERSE && second_sensor) {
+        ballevator_state = BALLEVATOR_HOLD;
+        it.SetSpeed(BALLEVATOR_SPEED_HOLD);
+      } else if (ballevator_state == BALLEVATOR_REVERSE && !force_reverse) {
+        ballevator_state = BALLEVATOR_IDLE;
+        it.SetSpeed(BALLEVATOR_SPEED_IDLE);
+      } else if (firefirefire && turret.ReadyToFire()) {
         ballevator_state = BALLEVATOR_FIRE;
         it.SetSpeed(BALLEVATOR_SPEED_FIRE);
+      } else if (ballevator_state == BALLEVATOR_FIRE && !firefirefire) {
+        ballevator_state = BALLEVATOR_READY;
+        it.SetSpeed(BALLEVATOR_SPEED_READY);
       } else if (second_sensor) {
         ballevator_state = BALLEVATOR_HOLD;
         it.SetSpeed(BALLEVATOR_SPEED_HOLD);
       } else if (intake_sensor) {
         ballevator_state = BALLEVATOR_LOADING;
         it.SetSpeed(BALLEVATOR_SPEED_LOADING);
-      } else if (ballevator_state == BALLEVATOR_IDLE && intake_deployed) {
+      } else if (ballevator_state == BALLEVATOR_IDLE && intake.IsDeployed()) {
         ballevator_state = BALLEVATOR_READY;
         it.SetSpeed(BALLEVATOR_SPEED_READY);
-      } else if (ballevator_state == BALLEVATOR_READY && !intake_deployed) {
+      } else if (ballevator_state == BALLEVATOR_LOADING &&
+                 !intake.IsDeployed()) {
         ballevator_state = BALLEVATOR_IDLE;
         it.SetSpeed(BALLEVATOR_SPEED_IDLE);
-      } else if (ballevator_state == BALLEVATOR_FIRE && !firefirefire) {
-        ballevator_state = BALLEVATOR_READY;
-        it.SetSpeed(BALLEVATOR_SPEED_READY);
+      } else if (ballevator_state == BALLEVATOR_READY && !intake.IsDeployed()) {
+        ballevator_state = BALLEVATOR_IDLE;
+        it.SetSpeed(BALLEVATOR_SPEED_IDLE);
       }
     }
     Ballevator& it;
+    Turret& turret;
+    Intake& intake;
     frc::XboxController& joy;
-  } Ballelevate{ballevator, operatorstick};
+  } Ballelevate{ballevator, turret, intake, operatorstick};
 
   // The driver's controller (for manual control)
   frc::XboxController driverstick{

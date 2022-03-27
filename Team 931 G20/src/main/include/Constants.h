@@ -55,7 +55,7 @@ constexpr int shooterLeft = 8, shooterRight = 9;
 
 constexpr double shooterSpdInit = 11000;
 constexpr double rotMin = -125, rotMax = 110;
-constexpr double elevMin = 0.01, elevMax = 120;
+constexpr double elevMin = 8.0, elevMax = 120;
 
 // Scales the rate of adjustment to turret rotation and
 // angle changer positions.

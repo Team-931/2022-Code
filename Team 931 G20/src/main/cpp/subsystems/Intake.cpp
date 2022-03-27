@@ -26,6 +26,8 @@ void Intake::Periodic() {
 
 void Intake::SetDeployed(bool d) { deployed = d; }
 
+bool Intake::IsDeployed() { return deployed; }
+
 void Intake::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
 }

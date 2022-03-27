@@ -16,6 +16,7 @@ class Turret : public frc2::SubsystemBase {
   void Periodic() override;
 
   void Fire(bool isFiring);
+  bool ReadyToFire();
   void RotateTurret(double speed);
   void AdjustAngle(double speed);
   void AdjustSpeed(double speed);

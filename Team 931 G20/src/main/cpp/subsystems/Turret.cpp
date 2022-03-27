@@ -65,6 +65,10 @@ void Turret::Fire(bool isFiring) {
   }
 }
 
+bool Turret::ReadyToFire() {
+  return shooterR.GetSelectedSensorVelocity() > 0.98 * shooterSpeed;
+}
+
 void Turret::RotateTurret(double rate) { rotator.Set(rate * rotatorpower); }
 
 // Adjust the "angle changer" position
@@ -80,6 +84,31 @@ void Turret::AdjustSpeed(double rate) {
   // "counts per 100ms", so the theoretical max speed is 21,777.
   shooterSpeed += rate * 100.0;
 }
+
+// The lookup table contains "infinitely low" and "infinitely high"
+// points so that the indexing math can work. By repeating the first
+// and last "empirical" values at those points, we make the logic
+// flatten out after that point.
+#define DBL_MAX std::numeric_limits<double>::max()
+const std::vector<double> auto_pitch_ty = {-DBL_MAX, -24.48, -18.04,
+                                           -8.39,    15.8,   DBL_MAX};
+const std::vector<double> auto_pitch_speed = {18542, 18542, 16305,
+                                              12984, 11000, 11000};
+const std::vector<double> auto_pitch_angle = {25.48, 25.48, 18.81,
+                                              15.93, 10.48, 10.48};
+
+// Find the first index for which the input 'ty' is less than
+// the lookup table value.
+int AutoPitchIndex(double ty) {
+  for (int idx = 0; idx < (int)auto_pitch_ty.size(); idx++) {
+    if (ty < auto_pitch_ty[idx]) {
+      return idx;
+    }
+  }
+  return auto_pitch_ty.size() - 1;
+}
+
+#define AUTOTARGET_SMOOTHING 4
 
 void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
   std::shared_ptr<nt::NetworkTable> table =
@@ -109,34 +138,34 @@ void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
   }
 
   if (auto_pitch) {
-    shooterAngle = 60.0;
-    // shooterAngle = EstimateAngleFromCamera(ty);
+    int idx = AutoPitchIndex(ty);
+
+    double ty_a = auto_pitch_ty[idx - 1];
+    double ty_b = auto_pitch_ty[idx];
+    double alpha = (ty - ty_a) / (ty_b - ty_a);
+
+    double angle_a = auto_pitch_angle[idx - 1];
+    double angle_b = auto_pitch_angle[idx];
+    double angle = angle_a * (1.0 - alpha) + angle_b * alpha;
+    shooterAngle = (shooterAngle * (AUTOTARGET_SMOOTHING - 1) + angle) /
+                   AUTOTARGET_SMOOTHING;
+
+    double speed_a = auto_pitch_speed[idx - 1];
+    double speed_b = auto_pitch_speed[idx];
+    double speed = speed_a * (1.0 - alpha) + speed_b * alpha;
+    shooterSpeed = (shooterSpeed * (AUTOTARGET_SMOOTHING - 1) + speed) /
+                   AUTOTARGET_SMOOTHING;
+
+#if defined(AUTOTARGET_DEBUG)
+    frc::SmartDashboard::PutNumber("Alpha", alpha);
+    frc::SmartDashboard::PutNumber("TargetY[A]", ty_a);
+    frc::SmartDashboard::PutNumber("TargetY[B]", ty_b);
+    frc::SmartDashboard::PutNumber("Angle[A]", angle_a);
+    frc::SmartDashboard::PutNumber("Angle[B]", angle_b);
+    frc::SmartDashboard::PutNumber("Speed[A]", speed_a);
+    frc::SmartDashboard::PutNumber("Speed[B]", speed_b);
+    frc::SmartDashboard::PutNumber("Auto Angle", angle);
+    frc::SmartDashboard::PutNumber("Auto Speed", speed);
+#endif /* AUTOTARGET_DEBUG */
   }
-}
-
-// The lookup table starts with an "infinitely low" point so that
-// the indexing math can work.
-#define DBL_MIN std::numeric_limits<double>::lowest()
-const std::vector<double> auto_pitch_ty = {DBL_MIN, 0.0, 0.5, 1.0};
-const std::vector<double> auto_pitch_angle = {0.0, 0.0, 0.0, 0.0};
-
-double EstimateAngleFromCamera(double ty) {
-  // Find the two closest 'Target Y' and 'Angle' values in the
-  // lookup table.
-  double ty_a = 0.0, ty_b = 0.0;
-  double angle_a = 0.0, angle_b = 0.0;
-  for (int idx = 1; idx < (int)auto_pitch_ty.size(); idx++) {
-    if (auto_pitch_ty[idx] < ty) {
-      continue;
-    }
-    ty_a = auto_pitch_ty[idx - 1];
-    ty_b = auto_pitch_ty[idx];
-    angle_a = auto_pitch_angle[idx - 1];
-    angle_b = auto_pitch_angle[idx];
-    break;
-  }
-
-  // Linearly interpolate between the two closest values
-  double alpha = (ty - ty_a) / (ty_b - ty_a);
-  return angle_a * (1.0 - alpha) + angle_b * alpha;
 }
