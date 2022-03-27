@@ -1,10 +1,10 @@
-//This will store functionalities for the turret on the bot
-# include <rev/cansparkmax.h>
-# include <ctre/Phoenix.h>
+// This will store functionalities for the turret on the bot
+#include <ctre/Phoenix.h>
+#include <rev/cansparkmax.h>
 #pragma once
 
-#include <frc2/command/SubsystemBase.h>
 #include <frc/encoder.h>
+#include <frc2/command/SubsystemBase.h>
 
 class Turret : public frc2::SubsystemBase {
  public:
@@ -20,24 +20,26 @@ class Turret : public frc2::SubsystemBase {
    * simulation.
    */
 
-  void ShootTheBall(bool = true); //Shoots the ball into the basket
+  void ShootTheBall(bool = true);  // Shoots the ball into the basket
   void IncShooterSpeed(double);
 
-  void ModifyAngle(double power); //Modifies the angle at which the turret is set (up down/ how much it is it angled)
+  void ModifyAngle(double power);  // Modifies the angle at which the turret is
+                                   // set (up down/ how much it is it angled)
 
-  void StayAtAngle(); // holds the angle steady
+  void StayAtAngle();  // holds the angle steady
 
-  void RotateTurret(double power); //rotates the turret (has a set amount of degrees at which it can be turned)
+  void RotateTurret(double power);  // rotates the turret (has a set amount of
+                                    // degrees at which it can be turned)
 
-     
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
-   rev::CANSparkMax rotator; // motor used to rotate the turret
-   rev::CANSparkMax anglechanger; //used to modify the angle at which the turret is at (up/down in degrees)
-   rev::SparkMaxRelativeEncoder rotPos, elevPos;
-   rev::SparkMaxPIDController elevCtrl;
-   WPI_TalonFX shooterL, shooterR;
-   double shooterSpd;
+  rev::CANSparkMax rotator;       // motor used to rotate the turret
+  rev::CANSparkMax anglechanger;  // used to modify the angle at which the
+                                  // turret is at (up/down in degrees)
+  rev::SparkMaxRelativeEncoder rotPos, elevPos;
+  rev::SparkMaxPIDController elevCtrl;
+  WPI_TalonFX shooterL, shooterR;
+  double shooterSpd;
 };
