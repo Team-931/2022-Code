@@ -105,6 +105,8 @@ SwerveModule::SwerveModule()
    */    // set PID
   turn.Config_kP(0, .25);
   drive.SetNeutralMode(NeutralMode::Brake);
+  drive.ConfigOpenloopRamp(0);//ask how much
+  drive.ConfigClosedloopRamp(.5);//ask how much
 }
 
 double SwerveModule::SetV(double linX, double linY, double rot) {

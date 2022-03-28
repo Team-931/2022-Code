@@ -79,6 +79,11 @@ class RobotContainer {
     DrvbyStick(DriveTrain& d, RobotContainer& j) : it(d), bot(j) {
       AddRequirements(&d);
     }
+
+    void Initialize() override {
+      SwerveModule::controlMode = TalonFXControlMode::Velocity;
+    }
+
     void Execute() override {
       static bool fieldcentered = true;
       if (bot.GetFieldCenterToggle()) fieldcentered ^= true;
