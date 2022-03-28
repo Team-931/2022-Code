@@ -12,6 +12,8 @@
 #include "Constants.h"
 using namespace Constants::DriveTrain;
 
+TalonFXControlMode SwerveModule::controlMode  {TalonFXControlMode::PercentOutput};
+
 DriveTrain::DriveTrain() {
   // Implementation of subsystem constructor goes here.
   SetName("drive train");

@@ -15,7 +15,7 @@
  */
 class SwerveModule : public frc2::SubsystemBase {
  public:
-  static TalonFXControlMode controlMode {TalonFXControlMode::PercentOutput};
+  static TalonFXControlMode controlMode;
 
   SwerveModule();
 
