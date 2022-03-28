@@ -13,7 +13,24 @@
  * It is generally a good idea to place constants into subsystem- or
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
+ * 
+ * 
+ * 
  */
+
+
+
+const double BALLEVATOR_SPEED_IDLE = 0.0;
+const double BALLEVATOR_SPEED_READY = 0.75;
+const double BALLEVATOR_SPEED_LOADING = 0.65;
+const double BALLEVATOR_SPEED_HOLD = 0.0;
+const double BALLEVATOR_SPEED_FIRE = 1.0;
+const double BALLEVATOR_SPEED_REVERSE = -1.0;
+
+const double TURRET_YAW_DEADZONE = 0.25;
+const double TURRET_ANGLE_DEADZONE = 0.2;
+const double TURRET_SPEED_DEADZONE = 0.2;
+
 namespace Constants {
 namespace RobotContainer {
 constexpr double minThrottle = .1;
