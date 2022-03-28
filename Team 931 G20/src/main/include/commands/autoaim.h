@@ -22,7 +22,7 @@ public:
 
 autoaim(Turret &t, Ballevator &b); //constructor for autoaim class
 
-void autoaim::Initialize() override;
+void Initialize() override;
 
 void Execute() override; //execute function
 
