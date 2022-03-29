@@ -12,7 +12,7 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/Turret.h"
 #include "subsystems/Ballevator.h"
-
+#include "Constants.h"
 
 class autoaim
 : public frc2::CommandHelper<frc2::CommandBase, autoaim> //inherits from commandbase
@@ -25,6 +25,8 @@ autoaim(Turret &t, Ballevator &b); //constructor for autoaim class
 void Initialize() override;
 
 void Execute() override; //execute function
+
+void End(bool) override;
 
 private:
 

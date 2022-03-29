@@ -7,7 +7,7 @@ This file will contain the implementations for the functions in autoaim.cpp
 //Inclusion of other files to run the functions in this file
 
 #include "commands/autoaim.h"
-#include "Constants.h"
+
 
 autoaim::autoaim( Turret &t, Ballevator &b)
     : turret(t), ballevator(b){}
@@ -47,5 +47,11 @@ else{
 }
 
 
+//will take place when the robot ends its automation period
+void autoaim::End(bool){
 
+//  stops the ashooting wheels (makes them turn off)
+    turret.Fire(false);
+
+}
 
