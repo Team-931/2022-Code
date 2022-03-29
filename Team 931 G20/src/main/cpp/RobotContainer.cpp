@@ -9,6 +9,8 @@
 #include "Constants.h"
 using namespace Constants::RobotContainer;
 
+# include "commands/autoaim.h"
+
 RobotContainer::RobotContainer()
     : m_autonomousCommand(&intake), drivebyStick(drivetrain, *this) {
   // Initialize all of your commands and subsystems here
@@ -32,6 +34,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
+  if(1) return new autoaim(turret, ballevator);
   return &m_autonomousCommand;
 }
 
