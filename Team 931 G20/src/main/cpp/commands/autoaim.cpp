@@ -26,6 +26,8 @@ void autoaim::Initialize() {
 
 void autoaim::Execute() {
 
+  turret.Fire(true);
+
 //goes to function that automates turret rotation and angle (autoaim turret)
 turret.AutoTarget(true, true);
 
