@@ -82,11 +82,9 @@ void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
     scale = std::max(scale, wheel.SetV(linX, linY, rot));
   for (auto& wheel : wheels) wheel.ScaleV(scale);
 }
-
-double DriveTrain::Distance() {
-  double retval = 0;
-  for (auto wheel : wheels) retval += wheel.Distance();
-  return retval/4 / ticksPerInch;
+// returns in inches the sigh is not reliable
+double DriveTrain::Distance(int ix) {
+  return wheels[ix].Distance()/ ticksPerInch;
 }
 
 double SwerveModule::Distance() {

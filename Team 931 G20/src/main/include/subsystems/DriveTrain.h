@@ -69,7 +69,7 @@ class DriveTrain : public frc2::SubsystemBase {
   void SetV(double linX, double linY, double rot, double throttles,
             bool fieldcentered = true);
 
-  double Distance();
+  double Distance(int index = 0);
   double Yaw();
 
   /**
