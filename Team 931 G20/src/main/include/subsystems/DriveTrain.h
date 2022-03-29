@@ -26,6 +26,8 @@ class SwerveModule : public frc2::SubsystemBase {
   double SetV(double linX, double linY, double rot);
   void ScaleV(double scale);
 
+  double Distance();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -61,8 +63,14 @@ class DriveTrain : public frc2::SubsystemBase {
    * Set linear and rotational velocity relative to the field by default,
    * otherwise relative to the robot.
    */
+  void SetVforTeleop(double linX, double linY, double rot, double throttles,
+            bool fieldcentered = true);
+
   void SetV(double linX, double linY, double rot, double throttles,
             bool fieldcentered = true);
+
+  double Distance();
+  double Yaw();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

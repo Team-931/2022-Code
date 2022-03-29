@@ -45,6 +45,22 @@ double CalculateDeadZone(double deadzone, double x) {
 // that for instance -0.5 becomes -0.25 rather than 0.25.
 double QuadraticScaling(double x) { return (x < 0.0 ? -1.0 : 1.0) * x * x; }
 
+void DriveTrain::SetVforTeleop(double linX, double linY, double rot, double throttle,
+                      bool fieldctr) {
+  // Dead zones
+  linX = CalculateDeadZone(JOYSTICK_MOTION_DEADZONE, linX);
+  linY = CalculateDeadZone(JOYSTICK_MOTION_DEADZONE, linY);
+  rot = CalculateDeadZone(JOYSTICK_ROTATION_DEADZONE, rot);
+
+  // Quadratic scaling on inputs
+  linX = QuadraticScaling(linX);
+  linY = QuadraticScaling(linY);
+  rot = QuadraticScaling(rot);
+
+  SetV(linX, linY, rot, throttle, fieldctr);
+
+}
+
 void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
                       bool fieldctr) {
 #ifdef DRIVE_TRAIN_DEBUG
@@ -61,20 +77,20 @@ void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
     linY = y;
   }
 
-  // Dead zones
-  linX = CalculateDeadZone(JOYSTICK_MOTION_DEADZONE, linX);
-  linY = CalculateDeadZone(JOYSTICK_MOTION_DEADZONE, linY);
-  rot = CalculateDeadZone(JOYSTICK_ROTATION_DEADZONE, rot);
-
-  // Quadratic scaling on inputs
-  linX = QuadraticScaling(linX);
-  linY = QuadraticScaling(linY);
-  rot = QuadraticScaling(rot);
-
   double scale = 1 / throttle;
   for (auto& wheel : wheels)
     scale = std::max(scale, wheel.SetV(linX, linY, rot));
   for (auto& wheel : wheels) wheel.ScaleV(scale);
+}
+
+double DriveTrain::Distance() {
+  double retval = 0;
+  for (auto wheel : wheels) retval += wheel.Distance();
+  return retval/4 / ticksPerInch;
+}
+
+double SwerveModule::Distance() {
+  return drive.GetSelectedSensorPosition();
 }
 
 void DriveTrain::Periodic() {

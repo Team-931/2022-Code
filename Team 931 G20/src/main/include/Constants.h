@@ -49,9 +49,10 @@ const double rotationRescale = std::sqrt(
                          // rotational control argumenrs comparable.
 constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
     ticksPerRadian = 2048 / 2 / wpi::numbers::pi * turnGearing,
-                 ticksPerAbsTick =
-                     turnGearing *
-                     2048 /*/ 4096*/;  // todo: check this with hardware
+    ticksPerAbsTick = turnGearing * 2048,
+    wheelDiameter = 4, // inches
+    wheelGearRatio = 6.54,
+    ticksPerInch = 2048 * wheelGearRatio / wpi::numbers::pi / wheelDiameter;
 constexpr int absSubtraction[]{3265, 2068, 135, 2673};  // to align the wheels
 }  // namespace DriveTrain
 
