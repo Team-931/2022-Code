@@ -59,7 +59,7 @@ constexpr int absSubtraction[]{3265, 2068, 135, 2673};  // to align the wheels
 namespace Intake {
 constexpr int whnum{1},         /* motor, they help suck the ball in */
     raisenum{4}, lownum{0};     /* mechanism that initiates intake mechanism*/
-constexpr double whpow = 0.75;  // default power for the motor whnum
+constexpr double whpow = 1.00;  // default power for the motor whnum
 
 }  // namespace Intake
 
