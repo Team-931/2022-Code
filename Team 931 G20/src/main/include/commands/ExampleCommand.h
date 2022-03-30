@@ -16,16 +16,18 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ExampleCommand
-    : public frc2::CommandHelper<frc2::CommandBase, ExampleCommand> {
+class RunIntake
+    : public frc2::CommandHelper<frc2::CommandBase, RunIntake> {
  public:
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new RunIntake.
    *
    * @param subsystem The subsystem used by this command.
    */
-  explicit ExampleCommand(Intake* subsystem);
+  explicit RunIntake(Intake& subsystem);
+  void Initialize() override;
+  void End(bool) override;
 
  private:
-  Intake* m_subsystem;
+  Intake& m_subsystem;
 };

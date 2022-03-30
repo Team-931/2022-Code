@@ -63,7 +63,7 @@ class RobotContainer {
   Ballevator ballevator;
   bool XBox{false};
   frc::SendableChooser<frc2::Command*> chooser;
-  ExampleCommand m_autonomousCommand;
+  RunIntake m_autonomousCommand;
 
   void ConfigureButtonBindings();
 

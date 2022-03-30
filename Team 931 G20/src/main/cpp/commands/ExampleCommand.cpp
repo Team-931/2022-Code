@@ -4,5 +4,13 @@
 
 #include "commands/ExampleCommand.h"
 
-ExampleCommand::ExampleCommand(Intake* subsystem)
+RunIntake::RunIntake(Intake& subsystem)
     : m_subsystem{subsystem} {}
+
+void RunIntake::Initialize() {
+    m_subsystem.SetDeployed(true);
+}
+
+void RunIntake::End(bool) {
+    m_subsystem.SetDeployed(false);
+}

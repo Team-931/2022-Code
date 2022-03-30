@@ -28,9 +28,9 @@ class rot : public frc2::CommandHelper<frc2::CommandBase, rot> {
 };
 
 RobotContainer::RobotContainer()
-    : m_autonomousCommand(&intake), drivebyStick(drivetrain, *this) {
+    : m_autonomousCommand(intake), drivebyStick(drivetrain, *this) {
   // Initialize all of your commands and subsystems here
-  chooser.SetDefaultOption("Default", &m_autonomousCommand);
+  chooser.SetDefaultOption("run intake", &m_autonomousCommand);
   chooser.AddOption("rotate only", new rot(drivetrain, .25, 90));
   chooser.AddOption("drive only", new AutoDrive(drivetrain,-36,0,.25));
   chooser.AddOption("rotate, shoot, drive", 
