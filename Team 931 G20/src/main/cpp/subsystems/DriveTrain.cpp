@@ -91,6 +91,10 @@ double SwerveModule::Distance() {
   return drive.GetSelectedSensorPosition();
 }
 
+double DriveTrain::Yaw() {
+  return navx.GetYaw();
+}
+
 void DriveTrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
