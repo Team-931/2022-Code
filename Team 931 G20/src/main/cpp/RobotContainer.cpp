@@ -6,17 +6,41 @@
 
 #include <frc/DriverStation.h>
 # include <frc2/command/SequentialCommandGroup.h>
+# include <frc2/command/ParallelRaceGroup.h>
 # include <frc2/command/WaitCommand.h>
 
 #include "Constants.h"
 using namespace Constants::RobotContainer;
 
 # include "commands/autoaim.h"
+# include "commands/AutoDrive.h"
+
+class rot : public frc2::CommandHelper<frc2::CommandBase, rot> {
+  DriveTrain & drv;
+  double speed;
+  double tgt;
+  double start;
+  public:
+  rot(DriveTrain& d, double spd, double target) : drv(d), speed(spd), tgt(target) {}
+  void Initialize() {start = drv.Yaw();}
+  bool IsFinished() {return std::remainder (std::abs(drv.Yaw() - tgt), 360) < 1;}
+  void Execute() {drv.SetV(0,0,speed,1);}
+};
 
 RobotContainer::RobotContainer()
     : m_autonomousCommand(&intake), drivebyStick(drivetrain, *this) {
   // Initialize all of your commands and subsystems here
-
+  chooser.SetDefaultOption("Default", &m_autonomousCommand);
+  chooser.AddOption("rotate only", new rot(drivetrain, .25, 90));
+  chooser.AddOption("drive only", new AutoDrive(drivetrain,-36,0,.25));
+  chooser.AddOption("rotate, shoot, drive", 
+    new frc2::SequentialCommandGroup (
+      rot(drivetrain, .25, 170),
+      frc2::WaitCommand(1.0_s),
+      autoaim(turret, ballevator).WithTimeout(5.0_s),
+      AutoDrive(drivetrain,-48,0,.25)
+      ));
+  frc::SmartDashboard::PutData(& chooser);
   // Configure the button bindings
   ConfigureButtonBindings();
   drivetrain.SetDefaultCommand(drivebyStick);
@@ -34,28 +58,9 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
 }
 
-class rot : public frc2::CommandHelper<frc2::CommandBase, rot> {
-  DriveTrain & drv;
-  double speed;
-  double tgt;
-  double start;
-  public:
-  rot(DriveTrain& d, double spd, double target) : drv(d), speed(spd), tgt(target) {}
-  void Initialize() {start = drv.Yaw();}
-  bool IsFinished() {return std::remainder (std::abs(drv.Yaw() - tgt), 360) < 1;}
-  void Execute() {drv.SetV(0,0,speed,1);}
-};
-
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  if(1) {
-    return new frc2::SequentialCommandGroup (
-      rot(drivetrain, .25, 170),
-      frc2::WaitCommand(1.0_s),
-      autoaim(turret, ballevator)
-      );
-    }
-  return &m_autonomousCommand;
+    return chooser.GetSelected();
 }
 
 double RobotContainer::GetX() {

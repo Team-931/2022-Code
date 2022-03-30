@@ -7,6 +7,7 @@
 #include <frc/Joystick.h>
 #include <frc/XboxController.h>  //this is the file containing connection to xbox controller
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 
 #include "commands/ExampleCommand.h"
@@ -61,6 +62,7 @@ class RobotContainer {
   Turret turret;
   Ballevator ballevator;
   bool XBox{false};
+  frc::SendableChooser<frc2::Command*> chooser;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
