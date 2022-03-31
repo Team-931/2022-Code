@@ -5,7 +5,9 @@
 #include "commands/ExampleCommand.h"
 
 RunIntake::RunIntake(Intake& subsystem)
-    : m_subsystem{subsystem} {}
+    : m_subsystem{subsystem} {
+        AddRequirements(& subsystem);
+    }
 
 void RunIntake::Initialize() {
     m_subsystem.SetDeployed(true);
