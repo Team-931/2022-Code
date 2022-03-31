@@ -95,6 +95,8 @@ double DriveTrain::Yaw() {
   return navx.GetYaw();
 }
 
+void DriveTrain::ResetYaw() {navx.ZeroYaw();}
+
 void DriveTrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }

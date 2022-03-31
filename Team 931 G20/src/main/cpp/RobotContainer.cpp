@@ -5,6 +5,7 @@
 #include "RobotContainer.h"
 
 #include <frc/DriverStation.h>
+# include <frc2/command/button/JoystickButton.h>
 # include <frc2/command/SequentialCommandGroup.h>
 # include <frc2/command/ParallelRaceGroup.h>
 # include <frc2/command/WaitCommand.h>
@@ -42,6 +43,13 @@ RobotContainer::RobotContainer()
       autoaim(turret, ballevator).WithTimeout(5.0_s),
       AutoDrive(drivetrain,-48,0,.25)
       ));
+  chooser.AddOption("drive, rotate, shoot", 
+    new frc2::SequentialCommandGroup (
+      AutoDrive(drivetrain,-48,0,.25),
+      rot(drivetrain, .25, 170),
+      frc2::WaitCommand(1.0_s),
+      autoaim(turret, ballevator).WithTimeout(5.0_s)
+      ));
   frc::SmartDashboard::PutData(& chooser);
   // Configure the button bindings
   ConfigureButtonBindings();
@@ -58,6 +66,7 @@ void RobotContainer::Init() {
 
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
+  frc2::JoystickButton(&drivestickJ, 7).WhenPressed([this]() {drivetrain.ResetYaw();});
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

@@ -71,6 +71,7 @@ class DriveTrain : public frc2::SubsystemBase {
 
   double Distance(int index = 0);
   double Yaw();
+  void ResetYaw();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
