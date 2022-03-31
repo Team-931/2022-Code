@@ -10,7 +10,9 @@ This file will contain the implementations for the functions in autoaim.cpp
 
 
 autoaim::autoaim( Turret &t, Ballevator &b)
-    : turret(t), ballevator(b){}
+    : turret(t), ballevator(b){
+      AddRequirements(&t);
+    }
 
 
 //initialiser function (to start up the turret wheels (motors related to turret))

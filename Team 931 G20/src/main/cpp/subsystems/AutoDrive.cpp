@@ -2,6 +2,7 @@
 # include "subsystems/DriveTrain.h"
 
 AutoDrive::AutoDrive(DriveTrain & d, double x, double y, double spd) : drive(d) {
+    AddRequirements(&d);
     dist = std::sqrt(x*x+y*y);
     vx = x / dist * spd;
     vy = y / dist * spd;

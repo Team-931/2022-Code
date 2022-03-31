@@ -21,7 +21,9 @@ class rot : public frc2::CommandHelper<frc2::CommandBase, rot> {
   double tgt;
   double start;
   public:
-  rot(DriveTrain& d, double spd, double target) : drv(d), speed(spd), tgt(target) {}
+  rot(DriveTrain& d, double spd, double target) : drv(d), speed(spd), tgt(target) {
+    AddRequirements(&d);
+  }
   void Initialize() {start = drv.Yaw();}
   bool IsFinished() {return std::remainder (std::abs(drv.Yaw() - tgt), 360) < 1;}
   void Execute() {drv.SetV(0,0,speed,1);}
