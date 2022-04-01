@@ -65,7 +65,7 @@ void Turret::Fire(bool isFiring) {
   if (isFiring) {
     shooterR.Set(TalonFXControlMode::Velocity, shooterSpeed);
   } else {
-    shooterR.Set(0.0);  // Power zero, skipping PID
+    shooterR.Set(shooterMinPow);  // Power zero, skipping PID
   }
 }
 
@@ -157,7 +157,7 @@ void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
     double speed_a = auto_pitch_speed[idx - 1];
     double speed_b = auto_pitch_speed[idx];
     double speed = speed_a * (1.0 - alpha) + speed_b * alpha;
-    shooterSpeed = .95*(shooterSpeed * (AUTOTARGET_SMOOTHING - 1) + speed) /
+    shooterSpeed = (shooterSpeed * (AUTOTARGET_SMOOTHING - 1) + speed) /
                    AUTOTARGET_SMOOTHING;
 
 #if defined(AUTOTARGET_DEBUG)

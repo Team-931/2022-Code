@@ -21,7 +21,7 @@ class Turret : public frc2::SubsystemBase {
   void AdjustAngle(double speed);
   void AdjustSpeed(double speed);
   void AutoTarget(bool auto_yaw, bool auto_pitch);
-
+  double shooterMinPow = 0;
  private:
   rev::CANSparkMax rotator;       // motor used to rotate the turret
   rev::CANSparkMax anglechanger;  // used to modify the angle at which the
