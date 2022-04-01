@@ -82,7 +82,7 @@ void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
     scale = std::max(scale, wheel.SetV(linX, linY, rot));
   for (auto& wheel : wheels) wheel.ScaleV(scale);
 }
-// returns in inches the sigh is not reliable
+// returns in inches the sign is not reliable
 double DriveTrain::Distance(int ix) {
   return wheels[ix].Distance()/ ticksPerInch;
 }
