@@ -96,8 +96,8 @@ class RobotContainer {
       // Operator inputs
       bool firefirefire = joy.GetAButton();
       
-      //change made here, shooterminpow changed from 0.75 to 0.9 to 0.95 to 0.9
-      if (joy.GetXButtonPressed()) if(it.shooterMinPow) it.shooterMinPow = 0; else it.shooterMinPow = 0.9; //changed from 0.75 to 0.9
+      //change made here, shooterminpow changed from 0.75 to 0.9 to 0.95 to 0.9 to 0.85
+      if (joy.GetXButtonPressed()) if(it.shooterMinPow) it.shooterMinPow = 0; else it.shooterMinPow = 0.85; //changed from 0.75 to 0.9
      
       bool auto_target_toggle = joy.GetBButtonPressed();
       double turret_manual_yaw =
@@ -180,8 +180,6 @@ class RobotContainer {
       // State Variables
       static int ballevator_state = BALLEVATOR_IDLE;
 
-      //override Change made here, set ballevator to 80% power
-       if(joy.GetYButtonPressed()) it.SetSpeed(0.8);
      
       frc::SmartDashboard::PutString(
           "ballevator_state",
@@ -209,6 +207,11 @@ class RobotContainer {
         //This hopefully is when the ballevator is reversed
        // intake.SetSpeed(BALLEVATOR_SPEED_REVERSE) // This hopefully reverses the intake when the ballevator is reversed
 
+
+      }//override Change made here, set ballevator to requested power (  Vince wanted this )
+      else if(joy.GetYButtonPressed()) {
+         ballevator_state = BALLEVATOR_FIRE;
+       
       } else if (ballevator_state == BALLEVATOR_REVERSE && second_sensor) {
         ballevator_state = BALLEVATOR_HOLD;
         it.SetSpeed(BALLEVATOR_SPEED_HOLD);
