@@ -102,7 +102,7 @@ class RobotContainer {
       double turret_manual_angle =
           CalculateDeadZone(TURRET_ANGLE_DEADZONE, -joy.GetLeftY());
       double turret_manual_speed =
-          CalculateDeadZone(TURRET_SPEED_DEADZONE, -joy.GetLeftTriggerAxis());
+          CalculateDeadZone(TURRET_SPEED_DEADZONE, -joy.GetLeftX());
       frc::SmartDashboard::PutNumber("manual_yaw", turret_manual_yaw);
       frc::SmartDashboard::PutNumber("manual_angle", turret_manual_angle);
       frc::SmartDashboard::PutNumber("manual_speed", turret_manual_speed);

@@ -33,7 +33,7 @@ const double TURRET_SPEED_DEADZONE = 0.2;
 
 namespace Constants {
 namespace RobotContainer {
-constexpr double minThrottle = .2,
+constexpr double minThrottle = .15,
                  maxThrottle = .8;
 }
 namespace DriveTrain {

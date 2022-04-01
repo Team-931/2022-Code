@@ -94,11 +94,11 @@ void Turret::AdjustSpeed(double rate) {
 // and last "empirical" values at those points, we make the logic
 // flatten out after that point.
 #define DBL_MAX std::numeric_limits<double>::max()
-const std::vector<double> auto_pitch_ty = {-DBL_MAX, -24.48, -18.04,
-                                           -8.39,    15.8,   DBL_MAX};
-const std::vector<double> auto_pitch_speed = {18542, 18542, 16305,
-                                              12984, 11000, 11000};
-const std::vector<double> auto_pitch_angle = {25.48, 25.48, 18.81,
+const std::vector<double> auto_pitch_ty = {-DBL_MAX, -20, 
+                                           -4.9,    15.8,   DBL_MAX};
+const std::vector<double> auto_pitch_speed = {15500, 13250, 
+                                              11250, 11000, 11000};
+const std::vector<double> auto_pitch_angle = {25.48, 18.81,
                                               15.93, 10.48, 10.48};
 
 // Find the first index for which the input 'ty' is less than
