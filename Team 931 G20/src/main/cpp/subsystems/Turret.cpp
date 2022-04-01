@@ -153,7 +153,7 @@ void Turret::AutoTarget(bool auto_yaw, bool auto_pitch) {
     double speed_a = auto_pitch_speed[idx - 1];
     double speed_b = auto_pitch_speed[idx];
     double speed = speed_a * (1.0 - alpha) + speed_b * alpha;
-    shooterSpeed = (shooterSpeed * (AUTOTARGET_SMOOTHING - 1) + speed) /
+    shooterSpeed = .95*(shooterSpeed * (AUTOTARGET_SMOOTHING - 1) + speed) /
                    AUTOTARGET_SMOOTHING;
 
 #if defined(AUTOTARGET_DEBUG)

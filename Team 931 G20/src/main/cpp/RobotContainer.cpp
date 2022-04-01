@@ -36,10 +36,8 @@ RobotContainer::RobotContainer()
   chooser.SetDefaultOption("run intake", &m_autonomousCommand);
   chooser.AddOption("rotate only", new rot(drivetrain, .25, 90));
   chooser.AddOption("drive only", new AutoDrive(drivetrain,36,0,.25));
-  chooser.AddOption("rotate, shoot, drive", 
+  chooser.AddOption("shoot, drive", 
     new frc2::SequentialCommandGroup (
-      rot(drivetrain, .25, 170),
-      frc2::WaitCommand(1.0_s),
       autoaim(turret, ballevator).WithTimeout(5.0_s),
       AutoDrive(drivetrain,48,0,.25)
       ));
