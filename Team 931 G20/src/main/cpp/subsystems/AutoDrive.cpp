@@ -9,11 +9,11 @@ AutoDrive::AutoDrive(DriveTrain & d, double x, double y, double spd) : drive(d) 
 }
 
 void AutoDrive::Initialize() {
-    startEnc = drive.Yaw();
+    startEnc = drive.Distance();
 }
 
 bool AutoDrive::IsFinished() {
-    return std::abs (drive.Yaw() - startEnc) >= dist;
+    return std::abs (drive.Distance() - startEnc) >= dist;
 }
 
 void AutoDrive::Execute() {
