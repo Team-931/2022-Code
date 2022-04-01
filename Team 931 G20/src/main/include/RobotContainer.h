@@ -214,7 +214,7 @@ class RobotContainer {
         intake.SetReversed(false);
         if(joy.GetYButton()) {
           ballevator_state = BALLEVATOR_FIRE;
-        
+          it.SetSpeed(BALLEVATOR_SPEED_FIRE);
         } else if (ballevator_state == BALLEVATOR_REVERSE && second_sensor) {
           ballevator_state = BALLEVATOR_HOLD;
           it.SetSpeed(BALLEVATOR_SPEED_HOLD);

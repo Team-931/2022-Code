@@ -62,11 +62,12 @@ void Turret::Periodic() {
 }
 
 void Turret::Fire(bool isFiring) {
-  if (isFiring) {
+  if (isFiring) 
     shooterR.Set(TalonFXControlMode::Velocity, shooterSpeed);
-  } else {
-    shooterR.Set(TalonFXControlMode::Velocity, shooterMinPow);  // Power zero, skipping PID
-  }
+  else if(shooterMinPow)
+    shooterR.Set(TalonFXControlMode::Velocity, shooterMinPow);
+  else shooterR.Set(0);  // Power zero, skipping PID
+  
 }
 
 bool Turret::ReadyToFire() {
