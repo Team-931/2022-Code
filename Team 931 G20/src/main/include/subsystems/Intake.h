@@ -17,6 +17,8 @@ class Intake : public frc2::SubsystemBase {
   void SetDeployed(bool deployed);
   bool IsDeployed();
 
+  void SetReversed(bool);
+
   /**
    * Will be called periodically whenever the CommandScheduler runs during
    * simulation.
@@ -28,5 +30,5 @@ class Intake : public frc2::SubsystemBase {
   // declared private and exposed only through public methods.
   rev::CANSparkMax wheels;
   frc::DoubleSolenoid raiser;
-  bool deployed;
+  bool deployed, reversed;
 };

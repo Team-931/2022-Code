@@ -15,6 +15,10 @@ Intake::Intake()
 }
 
 void Intake::Periodic() {
+  if (reversed) {
+    wheels.Set(-whpow);
+    return;
+  }
   if (deployed) {
     wheels.Set(whpow);
     raiser.Set(frc::DoubleSolenoid::kReverse);
@@ -25,6 +29,7 @@ void Intake::Periodic() {
 }
 
 void Intake::SetDeployed(bool d) { deployed = d; }
+void Intake::SetReversed(bool r) {reversed = r;}
 
 bool Intake::IsDeployed() { return deployed; }
 

@@ -19,7 +19,7 @@
  */
 
 
-
+//HERE ARE MOTOR POWERS BASED ON BALLEVATOR STATES
 const double BALLEVATOR_SPEED_IDLE = 0.0;
 const double BALLEVATOR_SPEED_READY = 0.75;
 const double BALLEVATOR_SPEED_LOADING = 0.65;
@@ -30,6 +30,14 @@ const double BALLEVATOR_SPEED_REVERSE = -1.0;
 const double TURRET_YAW_DEADZONE = 0.25;
 const double TURRET_ANGLE_DEADZONE = 0.2;
 const double TURRET_SPEED_DEADZONE = 0.2;
+
+#define DBL_MAX std::numeric_limits<double>::max()
+const std::vector<double> auto_pitch_ty = {-DBL_MAX, -20, 
+                                           -4.9,    15.8,   DBL_MAX};
+const std::vector<double> auto_pitch_speed = {15500, 13250, 
+                                              11250, 11000, 11000};
+const std::vector<double> auto_pitch_angle = {25.48, 18.81,
+                                              15.93, 10.48, 10.48};
 
 namespace Constants {
 namespace RobotContainer {
@@ -74,7 +82,7 @@ constexpr int shooterLeft = 8, shooterRight = 9;
 
 constexpr double shooterSpdInit = 11000;
 constexpr double rotMin = -50, rotMax = 50;
-constexpr double elevMin = 8.0, elevMax = 120;
+constexpr double elevMin = 8.0, elevMax = 120;//ANGLE CHANGE LIMITS
 
 // Scales the rate of adjustment to turret rotation and
 // angle changer positions.

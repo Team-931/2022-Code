@@ -65,7 +65,7 @@ void Turret::Fire(bool isFiring) {
   if (isFiring) {
     shooterR.Set(TalonFXControlMode::Velocity, shooterSpeed);
   } else {
-    shooterR.Set(shooterMinPow);  // Power zero, skipping PID
+    shooterR.Set(TalonFXControlMode::Velocity, shooterMinPow);  // Power zero, skipping PID
   }
 }
 
@@ -93,14 +93,6 @@ void Turret::AdjustSpeed(double rate) {
 // points so that the indexing math can work. By repeating the first
 // and last "empirical" values at those points, we make the logic
 // flatten out after that point.
-#define DBL_MAX std::numeric_limits<double>::max()
-const std::vector<double> auto_pitch_ty = {-DBL_MAX, -20, 
-                                           -4.9,    15.8,   DBL_MAX};
-const std::vector<double> auto_pitch_speed = {15500, 13250, 
-                                              11250, 11000, 11000};
-const std::vector<double> auto_pitch_angle = {25.48, 18.81,
-                                              15.93, 10.48, 10.48};
-
 // Find the first index for which the input 'ty' is less than
 // the lookup table value.
 int AutoPitchIndex(double ty) {
