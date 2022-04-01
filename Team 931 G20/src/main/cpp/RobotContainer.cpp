@@ -90,8 +90,8 @@ double RobotContainer::GetRot() {
 double RobotContainer::GetThrottle() {
   if (XBox)
     return (minThrottle +
-            driverstick.GetRightTriggerAxis() * (1 - minThrottle));
-  return (1 + minThrottle - drivestickJ.GetThrottle() * (1 - minThrottle)) / 2;
+            driverstick.GetRightTriggerAxis() * (maxThrottle - minThrottle));
+  return (1 + minThrottle - drivestickJ.GetThrottle() * (maxThrottle - minThrottle)) / 2;
 }
 
 bool RobotContainer::GetFieldCenterToggle() {

@@ -33,7 +33,8 @@ const double TURRET_SPEED_DEADZONE = 0.2;
 
 namespace Constants {
 namespace RobotContainer {
-constexpr double minThrottle = .1;
+constexpr double minThrottle = .2,
+                 maxThrottle = .8;
 }
 namespace DriveTrain {
 constexpr int drvnum[]{0, 3, 4, 7}, trnnum[]{1, 2, 5, 6},
@@ -72,7 +73,7 @@ constexpr int turretangler = 3;  // refers to the turret cowl (angles the
 constexpr int shooterLeft = 8, shooterRight = 9;
 
 constexpr double shooterSpdInit = 11000;
-constexpr double rotMin = -125, rotMax = 110;
+constexpr double rotMin = -50, rotMax = 50;
 constexpr double elevMin = 8.0, elevMax = 120;
 
 // Scales the rate of adjustment to turret rotation and

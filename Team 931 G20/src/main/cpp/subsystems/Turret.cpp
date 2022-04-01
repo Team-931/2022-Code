@@ -50,10 +50,14 @@ Turret::Turret()
 }
 
 void Turret::Periodic() {
+  static int delayer =0;
+  if((delayer++) % 8 == 0) {
+    frc::SmartDashboard::PutNumber("rotator position", rotPos.GetPosition());
   frc::SmartDashboard::PutNumber("shooterSpeed(target)", shooterSpeed);
   frc::SmartDashboard::PutNumber("shooterSpeed(actual)",
                                  shooterR.GetSelectedSensorVelocity());
   frc::SmartDashboard::PutNumber("shooterAngle(target)", shooterAngle);
+  }
   elevCtrl.SetReference(shooterAngle, rev::CANSparkMax::ControlType::kPosition);
 }
 
