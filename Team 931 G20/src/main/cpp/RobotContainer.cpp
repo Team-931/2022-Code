@@ -8,6 +8,7 @@
 # include <frc2/command/button/JoystickButton.h>
 # include <frc2/command/SequentialCommandGroup.h>
 # include <frc2/command/ParallelRaceGroup.h>
+# include <frc2/command/ParallelCommandGroup.h>
 # include <frc2/command/WaitCommand.h>
 
 #include "Constants.h"
@@ -36,6 +37,12 @@ RobotContainer::RobotContainer()
   chooser.SetDefaultOption("run intake", &m_autonomousCommand);
   chooser.AddOption("rotate only", new rot(drivetrain, .25, 90));
   chooser.AddOption("drive only", new AutoDrive(drivetrain,36,0,.25));
+  chooser.AddOption("drive, shoot, drive", 
+    new frc2::SequentialCommandGroup (
+      frc2::ParallelCommandGroup (AutoDrive(drivetrain,30,0,.25), autoaim(turret, ballevator).WithTimeout(5.0_s)),
+      autoaim(turret, ballevator).WithTimeout(5.0_s),
+      AutoDrive(drivetrain,50,0,.25)
+      ));
   chooser.AddOption("shoot, drive", 
     new frc2::SequentialCommandGroup (
       autoaim(turret, ballevator).WithTimeout(5.0_s),
