@@ -39,7 +39,7 @@ RobotContainer::RobotContainer()
   chooser.AddOption("shoot, drive", 
     new frc2::SequentialCommandGroup (
       autoaim(turret, ballevator).WithTimeout(5.0_s),
-      AutoDrive(drivetrain,24,0,.25)
+      AutoDrive(drivetrain,150,0,.25)
       ));
   chooser.AddOption("drive, rotate, shoot", 
     new frc2::SequentialCommandGroup (
