@@ -74,7 +74,7 @@ class RobotContainer {
       static bool fieldcentered = true;
       if (bot.GetFieldCenterToggle()) fieldcentered ^= true;
       // todo: add throttle
-      it.SetV(bot.GetX(), bot.GetY(), bot.GetRot(), bot.GetThrottle(),
+      it.SetV(bot.GetX(), -bot.GetY(), -bot.GetRot(), bot.GetThrottle(),//minus sign is kludge
               fieldcentered);
     }
     DriveTrain& it;

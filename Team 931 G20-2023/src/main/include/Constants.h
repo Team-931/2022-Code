@@ -36,9 +36,9 @@ namespace RobotContainer {
 constexpr double minThrottle = .1;
 }
 namespace DriveTrain {
-constexpr int drvnum[]{0, 3, 4, 7}, trnnum[]{1, 2, 5, 6},
-    encodernum[]{0, 1, 3, 2};
-constexpr double halfLen = 29.25 / 2, halfWid = 19.75 / 2;  // X is forward
+constexpr int drvnum[]{1, 4, 7, 2}, trnnum[]{0, 5, 6, 3},
+    encodernum[]{0, 3, 2, 1};
+constexpr double halfLen = 24.25 / 2, halfWid = 24.125 / 2;  // X is forward
 constexpr double offsetXs[]{halfLen, halfLen, -halfLen,
                             -halfLen};  // coords in inches
 constexpr double offsetYs[]{halfWid, -halfWid, -halfWid,
@@ -52,7 +52,7 @@ constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
                  ticksPerAbsTick =
                      turnGearing *
                      2048 /*/ 4096*/;  // todo: check this with hardware
-constexpr int absSubtraction[]{3265, 2068, 135, 2673};  // to align the wheels
+constexpr int absSubtraction[]{-44, 75+2048, 2695, 1033};  // to align the wheels
 }  // namespace DriveTrain
 
 namespace Intake {

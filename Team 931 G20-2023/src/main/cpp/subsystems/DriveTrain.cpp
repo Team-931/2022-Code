@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+#define DRIVE_TRAIN_DEBUG
 #include "subsystems/DriveTrain.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -100,9 +100,9 @@ SwerveModule::SwerveModule()
   turn.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
   turn.SetNeutralMode(NeutralMode::Coast);
   // does this work?
-  /*     turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
+      turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
       turn.ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Signed_PlusMinus180);
-   */    // set PID
+      // set PID
   turn.Config_kP(0, .25);
   drive.SetNeutralMode(NeutralMode::Brake);
   drive.ConfigOpenloopRamp(0);//ask how much
@@ -114,7 +114,7 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
   linX += offsetY * rot;
   linY -= offsetX * rot;
   double spd = speed = std::sqrt(linX * linX + linY * linY),
-         ang = std::atan2(linY, linX);
+         ang = -std::atan2(linY, linX);//this is a kludge
   // this puts angle into same semicircle as its old value,
   // equivalent to adding or subtracting multiples of 180 degrees to ang to keep
   // it as close to angle as possible. Note that if we change ang by an odd
