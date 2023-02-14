@@ -62,5 +62,5 @@ double RobotContainer::GetThrottle() {
 
 bool RobotContainer::GetFieldCenterToggle() {
   if (XBox) return driverstick.GetRightBumperPressed();
-  return drivestickJ.GetTrigger();
+  return drivestickJ.GetTriggerPressed();
 }

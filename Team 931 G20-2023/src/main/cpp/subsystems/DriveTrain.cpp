@@ -54,7 +54,7 @@ void DriveTrain::SetV(double linX, double linY, double rot, double throttle,
 #endif /* DRIVE_TRAIN_DEBUG */
   if (fieldctr) {
     // todo:
-    double yaw = -std::numbers::pi / 180 * navx.GetYaw();
+    double yaw = std::numbers::pi / 180 * navx.GetYaw();
     double c = std::cos(yaw), s = std::sin(yaw);
     double x = linX * c - linY * s, y = linX * s + linY * c;
     linX = x;
