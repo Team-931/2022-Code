@@ -65,18 +65,12 @@ class RobotContainer {
 
   void ConfigureButtonBindings();
 
-  struct DrvbyStick
+struct DrvbyStick
       : public frc2::CommandHelper<frc2::CommandBase, DrvbyStick> {
     DrvbyStick(DriveTrain& d, RobotContainer& j) : it(d), bot(j) {
       AddRequirements(&d);
     }
-    void Execute() override {
-      static bool fieldcentered = true;
-      if (bot.GetFieldCenterToggle()) fieldcentered ^= true;
-      // todo: add throttle
-      it.SetV(-bot.GetX(), bot.GetY(), bot.GetRot(), bot.GetThrottle(),//minus sign is kludge
-              fieldcentered);
-    }
+    void Execute() override ;
     DriveTrain& it;
     RobotContainer& bot;
   } drivebyStick;
