@@ -52,7 +52,7 @@ constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
                  ticksPerAbsTick =
                      turnGearing *
                      2048 /*/ 4096*/;  // todo: check this with hardware
-constexpr int absSubtraction[]{-44+2048, 75+2048, 2695, 1033};  // to align the wheels
+constexpr int absSubtraction[]{2220, 2148, 2695, 1023};  // to align the wheels
 }  // namespace DriveTrain
 
 namespace Intake {
