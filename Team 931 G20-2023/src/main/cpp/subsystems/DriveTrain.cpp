@@ -121,7 +121,7 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
   // number of semicircles we change the sign of speed.
   int phase;
   angle = angle - std::remquo(angle - ang, std::numbers::pi, &phase);
-  if (phase & 1) speed = -speed;
+  if ((phase & 1) == 0) speed = -speed;
   // double oldangle = turn.GetSelectedSensorPosition();//maybe later if we want
   // to refer to actual position
   turn.Set(ControlMode::Position, ticksPerRadian * angle);

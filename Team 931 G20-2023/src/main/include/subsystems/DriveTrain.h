@@ -60,6 +60,9 @@ class DriveTrain : public frc2::SubsystemBase {
   /**
    * Set linear and rotational velocity relative to the field by default,
    * otherwise relative to the robot.
+   * linX is forward
+   * linY is rightward
+   * rot is clockwise
    */
   void SetV(double linX, double linY, double rot, double throttles,
             bool fieldcentered = true);
