@@ -27,6 +27,5 @@ class Intake : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   rev::CANSparkMax wheels;
-  frc::DoubleSolenoid raiser;
   bool deployed;
 };

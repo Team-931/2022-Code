@@ -53,6 +53,8 @@ constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
                      turnGearing *
                      2048 /*/ 4096*/;  // todo: check this with hardware
 constexpr int absSubtraction[]{2220, 2148, 2695, 1023};  // to align the wheels
+constexpr double maxVel = 1500, maxAccel = 1500;//for Motion Magic
+constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
 }  // namespace DriveTrain
 
 namespace Intake {
@@ -62,35 +64,13 @@ constexpr double whpow = 1.00;  // default power for the motor whnum
 
 }  // namespace Intake
 
-// namespace for the turret (getting and shooting the ball)
-namespace Turret {
-constexpr int turretrotator =
-    2;  // refers to the turret rotator (rotates turret)
-constexpr int turretangler = 3;  // refers to the turret cowl (angles the
-                                 // turret)
-constexpr int shooterLeft = 8, shooterRight = 9;
+// namespace for the arm (getting and shooting the ball)
+namespace Arm {
+constexpr int stage1Id = 8, stage2Id = 9;
 
-constexpr double shooterSpdInit = 11000;
-constexpr double rotMin = -125, rotMax = 110;
-constexpr double elevMin = 8.0, elevMax = 120;
+constexpr double maxVel = 1500, maxAccel = 1500;//for Motion Magic
+constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
 
-// Scales the rate of adjustment to turret rotation and
-// angle changer positions.
-constexpr double rotatorpower = 0.3;
-constexpr double anglechangerpower = 1.0;
+}  // namespace Arm
 
-constexpr double shooterCtlP = 0.1, shooterCtlI = 0.0001;
-constexpr double elevCtlP = 0.05, elevCtlI = 0.0;
-
-}  // namespace Turret
-
-// namespacefor the ball elevator
-namespace ballelavator {
-
-constexpr int ballelevator =
-    4;  // refers to the belavator (stores balls as ammo before being ejected)
-constexpr int intakenum = 4,
-              elevnum = 5;  // DIO numbers for the infrared sensors
-
-}  // namespace ballelavator
 }  // namespace Constants

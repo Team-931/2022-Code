@@ -9,7 +9,6 @@
 #include "Constants.h"
 using namespace Constants::RobotContainer;
 
-# include "commands/autoaim.h"
 
 RobotContainer::RobotContainer()
     : m_autonomousCommand(&intake), drivebyStick(drivetrain, *this) {
@@ -18,9 +17,8 @@ RobotContainer::RobotContainer()
   // Configure the button bindings
   ConfigureButtonBindings();
   drivetrain.SetDefaultCommand(drivebyStick);
-  turret.SetDefaultCommand(turretbyStick);
+  arm.SetDefaultCommand(turretbyStick);
   intake.SetDefaultCommand(Intakebystick);
-  ballevator.SetDefaultCommand(Ballelevate);
 }
 
 void RobotContainer::Init() {
@@ -34,7 +32,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  if(1) return new autoaim(turret, ballevator);
+  //if(1) return new autoaim(arm, ballevator);
   return &m_autonomousCommand;
 }
 

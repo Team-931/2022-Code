@@ -9,7 +9,6 @@ using namespace Constants::Intake;
 
 Intake::Intake()
     : wheels(whnum, rev::CANSparkMax::MotorType::kBrushless),
-      raiser(frc::PneumaticsModuleType::CTREPCM, raisenum, lownum),
       deployed(false) {
   wheels.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
@@ -17,10 +16,8 @@ Intake::Intake()
 void Intake::Periodic() {
   if (deployed) {
     wheels.Set(whpow);
-    raiser.Set(frc::DoubleSolenoid::kReverse);
   } else {
     wheels.Set(0);
-    raiser.Set(frc::DoubleSolenoid::kForward);
   }
 }
 

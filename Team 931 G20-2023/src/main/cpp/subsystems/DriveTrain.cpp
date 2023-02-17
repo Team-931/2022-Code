@@ -65,7 +65,10 @@ SwerveModule::SwerveModule()
       turn.ConfigIntegratedSensorInitializationStrategy(SensorInitializationStrategy::BootToAbsolutePosition);
       turn.ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Signed_PlusMinus180);
       // set PID
-  turn.Config_kP(0, .25);
+  turn.Config_kP(0, CtlP);
+  turn.Config_kF(0, CtlF);
+  turn.ConfigMotionCruiseVelocity(maxVel);
+  turn.ConfigMotionAcceleration(maxAccel);
   drive.SetNeutralMode(NeutralMode::Brake);
   drive.ConfigOpenloopRamp(0);//ask how much
   drive.ConfigClosedloopRamp(.5);//ask how much
@@ -86,7 +89,7 @@ double SwerveModule::SetV(double linX, double linY, double rot) {
   if ((phase & 1) == 0) speed = -speed;
   // double oldangle = turn.GetSelectedSensorPosition();//maybe later if we want
   // to refer to actual position
-  turn.Set(ControlMode::Position, ticksPerRadian * angle);
+  turn.Set(ControlMode::MotionMagic, ticksPerRadian * angle);
   return spd;
 }
 
