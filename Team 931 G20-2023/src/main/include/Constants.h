@@ -67,8 +67,9 @@ constexpr double whpow = 1.00;  // default power for the motor whnum
 // namespace for the arm (getting and shooting the ball)
 namespace Arm {
 constexpr int stage1Id = 8, stage2Id = 9;
-
-constexpr double maxVel = 1500, maxAccel = 1500;//for Motion Magic
+constexpr double gearing = 36, ticksPerRotation = gearing * 2048, velPerRPS = ticksPerRotation / 10;
+constexpr double maxVel = 2 * velPerRPS, maxAccel = .2 * velPerRPS;//for Motion Magic
+// the Motion Magic parameters are translated in interanl units from rotations/sec and rotations/sec^2
 constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
 
 }  // namespace Arm

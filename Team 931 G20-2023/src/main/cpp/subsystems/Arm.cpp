@@ -23,11 +23,11 @@ Arm::Arm()
   stage1.SetInverted(TalonFXInvertType::Clockwise);
   stage2.SetInverted(TalonFXInvertType::Clockwise);
   stage1.Config_kP(0, CtlP);
-  stage1.Config_kI(0, CtlF);
+  stage1.Config_kF(0, CtlF);
   stage1.ConfigMotionCruiseVelocity(maxVel);
   stage1.ConfigMotionAcceleration(maxAccel);
   stage2.Config_kP(0, CtlP);
-  stage2.Config_kI(0, CtlF);
+  stage2.Config_kF(0, CtlF);
   stage2.ConfigMotionCruiseVelocity(maxVel);
   stage2.ConfigMotionAcceleration(maxAccel);
 }
