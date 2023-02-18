@@ -91,7 +91,7 @@ struct DrvbyStick
     }
     void Execute() override {
       // State Variables
-      static bool intake_deployed = false;
+      static IntakeState intake_deployed = Stop;
       frc::SmartDashboard::PutBoolean("intake_deployed", intake_deployed);
 
       // Operator Inputs
@@ -100,10 +100,10 @@ struct DrvbyStick
 
       // State update logic
       if (intake_deploy && !intake_raise) {
-        intake_deployed = true;
+        intake_deployed = ConeIn;
       }
       if (intake_raise && !intake_deploy) {
-        intake_deployed = false;
+        intake_deployed = CubeIn;
       }
 
       // Control robot

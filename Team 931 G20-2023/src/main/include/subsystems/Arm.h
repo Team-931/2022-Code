@@ -14,7 +14,7 @@ class Arm : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  
+  void SetAngles(double stage1Degrees, double stage2Degrees); // 0, 0 is start position 
  private:
   WPI_TalonFX stage1, stage2;
 };

@@ -32,6 +32,7 @@ const double TURRET_ANGLE_DEADZONE = 0.2;
 const double TURRET_SPEED_DEADZONE = 0.2;
 
 namespace Constants {
+using std::numbers::pi;
 namespace RobotContainer {
 constexpr double minThrottle = .1;
 }
@@ -48,29 +49,32 @@ const double rotationRescale = std::sqrt(
     halfWid * halfWid);  // todo: de-kludge this, it makes the linear and
                          // rotational control argumenrs comparable.
 constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
-    ticksPerRadian = 2048 / 2 / std::numbers::pi * turnGearing,
-                 ticksPerAbsTick =
-                     turnGearing *
-                     2048 /*/ 4096*/;  // todo: check this with hardware
+    ticksPerAbsTick = turnGearing * 2048,
+    velPerRPS = ticksPerAbsTick / 10, //velocity per rotation/sec = accel per rotation/sec^2
+    ticksPerRadian = ticksPerAbsTick / 2 / pi;  // todo: check this with hardware
 constexpr int absSubtraction[]{2220, 2148, 2695, 1023};  // to align the wheels
-constexpr double maxVel = 1500, maxAccel = 1500;//for Motion Magic
+constexpr double maxVel = .75 * velPerRPS, maxAccel = .75 * velPerRPS;//for Motion Magic
 constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
 }  // namespace DriveTrain
 
 namespace Intake {
-constexpr int whnum{1},         /* motor, they help suck the ball in */
-    raisenum{4}, lownum{0};     /* mechanism that initiates intake mechanism*/
+constexpr int whnum{4};     /* mechanism that initiates intake mechanism*/
 constexpr double whpow = 1.00;  // default power for the motor whnum
 
 }  // namespace Intake
 
 // namespace for the arm (getting and shooting the ball)
 namespace Arm {
-constexpr int stage1Id = 8, stage2Id = 9;
-constexpr double gearing = 36, ticksPerRotation = gearing * 2048, velPerRPS = ticksPerRotation / 10;
+    using Constants::pi;
+constexpr int stage1Id = 9, stage2Id = 8;
+constexpr double gearing = 36, ticksPerRotation = gearing * 2048, velPerRPS = ticksPerRotation / 10,
+        ticksPerRadian = ticksPerRotation / 2 / pi,
+        gravCompensator = 0;
+constexpr double momentStage1 = 1, nAngleStage1 = 0.0/360,
+                 momentStage2 = 1, nAngleStage2 = 0.0/360; //todo: real values
 constexpr double maxVel = 2 * velPerRPS, maxAccel = .2 * velPerRPS;//for Motion Magic
 // the Motion Magic parameters are translated in interanl units from rotations/sec and rotations/sec^2
-constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
+constexpr double CtlP = 0.1, CtlF = 0.5 * 1024 / maxVel;//for PID
 
 }  // namespace Arm
 

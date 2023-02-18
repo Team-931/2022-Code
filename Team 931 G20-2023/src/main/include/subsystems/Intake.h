@@ -5,6 +5,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <rev/cansparkmax.h>
 
+enum IntakeState {Stop = 0, ConeIn = 1, CubeIn = -1};
+
 class Intake : public frc2::SubsystemBase {
  public:
   Intake();
@@ -14,8 +16,8 @@ class Intake : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void SetDeployed(bool deployed);
-  bool IsDeployed();
+  void SetDeployed(IntakeState deployed);
+  IntakeState IsDeployed();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs during
@@ -27,5 +29,5 @@ class Intake : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   rev::CANSparkMax wheels;
-  bool deployed;
+  IntakeState deployed;
 };
