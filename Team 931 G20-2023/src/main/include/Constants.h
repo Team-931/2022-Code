@@ -53,8 +53,8 @@ constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
     velPerRPS = ticksPerAbsTick / 10, //velocity per rotation/sec = accel per rotation/sec^2
     ticksPerRadian = ticksPerAbsTick / 2 / pi;  // todo: check this with hardware
 constexpr int absSubtraction[]{2220, 2148, 2695, 1023};  // to align the wheels
-constexpr double maxVel = .75 * velPerRPS, maxAccel = .75 * velPerRPS;//for Motion Magic
-constexpr double CtlP = 0.1, CtlF = 0.3;//for PID
+constexpr double maxVel = 12 * velPerRPS, maxAccel = 12 * velPerRPS;//for Motion Magic
+constexpr double CtlP = 0.1, CtlF = 0.25*2048/maxAccel;//for PID
 }  // namespace DriveTrain
 
 namespace Intake {
@@ -69,9 +69,9 @@ namespace Arm {
 constexpr int stage1Id = 9, stage2Id = 8;
 constexpr double gearing = 36, ticksPerRotation = gearing * 2048, velPerRPS = ticksPerRotation / 10,
         ticksPerRadian = ticksPerRotation / 2 / pi,
-        gravCompensator = 0;
-constexpr double momentStage1 = 1, nAngleStage1 = 0.0/360,
-                 momentStage2 = 1, nAngleStage2 = 0.0/360; //todo: real values
+        gravCompensator = 0, gear1to2 = 2;
+constexpr double momentStage1 = 202.4, nAngleStage1 = 6.1/360,
+                 momentStage2 = 109.9, nAngleStage2 = 26.2/360; //todo: real values
 constexpr double maxVel = 2 * velPerRPS, maxAccel = .2 * velPerRPS;//for Motion Magic
 // the Motion Magic parameters are translated in interanl units from rotations/sec and rotations/sec^2
 constexpr double CtlP = 0.1, CtlF = 0.5 * 1024 / maxVel;//for PID

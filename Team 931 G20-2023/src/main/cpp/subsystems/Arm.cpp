@@ -45,7 +45,7 @@ void Arm::SetAngles(double deg1, double deg2) {
   double g2 = gravCompensator * momentStage2 * sin (2*pi*(deg2 - nAngleStage2));
   double g1 = gravCompensator * momentStage1 * sin (2*pi*(deg1 - nAngleStage1)) + g2;
   stage1.Set(ControlMode::MotionMagic, deg1 * ticksPerRotation, 
-    DemandType::DemandType_ArbitraryFeedForward, g1);
+    DemandType::DemandType_ArbitraryFeedForward, g1 / gear1to2);
   stage2.Set(ControlMode::MotionMagic, (deg2 + deg2) * ticksPerRotation, 
     DemandType::DemandType_ArbitraryFeedForward, -g2);
 }
