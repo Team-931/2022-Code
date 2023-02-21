@@ -59,7 +59,7 @@ constexpr double CtlP = 0.1, CtlF = 0.25*2048/maxAccel;//for PID
 
 namespace Intake {
 constexpr int whnum{4};     /* mechanism that initiates intake mechanism*/
-constexpr double whpow = 1.00;  // default power for the motor whnum
+constexpr double whpow = -.3;  // default power for the motor whnum
 
 }  // namespace Intake
 
@@ -69,7 +69,7 @@ namespace Arm {
 constexpr int stage1Id = 9, stage2Id = 8;
 constexpr double gearing = 36, ticksPerRotation = gearing * 2048, velPerRPS = ticksPerRotation / 10,
         ticksPerRadian = ticksPerRotation / 2 / pi,
-        gravCompensator = 0, gear1to2 = 2;
+        gravCompensator = 9.81 /39.37 / 2.205 / 4.69 / 36, gear1to2 = 2;
 constexpr double momentStage1 = 202.4, nAngleStage1 = 6.1/360,
                  momentStage2 = 109.9, nAngleStage2 = 26.2/360; //todo: real values
 constexpr double maxVel = 2 * velPerRPS, maxAccel = .2 * velPerRPS;//for Motion Magic
