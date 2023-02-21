@@ -18,7 +18,8 @@ double EstimateAngleFromCamera(double ty);
 
 Arm::Arm()
     : stage1(stage1Id),
-      stage2(stage2Id) {
+      stage2(stage2Id),
+      gcomp {gravCompensator} {
   //stage1.Follow(stage2);
   stage1.SetInverted(TalonFXInvertType::Clockwise);
   stage2.SetInverted(TalonFXInvertType::Clockwise);
@@ -42,8 +43,8 @@ void Arm::Periodic() {
 
 void Arm::SetAngles(double deg1, double deg2) {
   deg1 /= 360; deg2 /= 360;
-  double g2 = gravCompensator * momentStage2 * sin (2*pi*(deg2 - nAngleStage2));
-  double g1 = gravCompensator * momentStage1 * sin (2*pi*(deg1 - nAngleStage1)) + g2;
+  double g2 = gcomp * momentStage2 * sin (2*pi*(deg2 - nAngleStage2));
+  double g1 = gcomp * momentStage1 * sin (2*pi*(deg1 - nAngleStage1)) + g2;
   stage1.Set(ControlMode::MotionMagic, deg1 * ticksPerRotation, 
     DemandType::DemandType_ArbitraryFeedForward, g1 / gear1to2);
   stage2.Set(ControlMode::MotionMagic, (deg2 + deg2) * ticksPerRotation, 

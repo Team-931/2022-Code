@@ -110,3 +110,11 @@ void RobotContainer::DrvbyStick::Execute() {
       it.SetV(linX, linY, rot, bot.GetThrottle(),
               fieldcentered);
     }
+
+void RobotContainer::TurbyStick::Execute() {
+  // testing only
+  static bool setPos = false;
+  if (joy.GetAButtonPressed()) setPos = ! setPos;
+  if (setPos) it.SetAngles(joy.GetLeftX(), joy.GetRightX());
+  else it.SetMotors(joy.GetLeftX(), joy.GetRightX());
+}

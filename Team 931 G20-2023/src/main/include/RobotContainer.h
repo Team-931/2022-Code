@@ -78,8 +78,7 @@ struct DrvbyStick
     TurbyStick(Arm& t, frc::XboxController& j) : it(t), joy(j) {
       AddRequirements(&t);
     }
-    void Execute() override {
-    }
+    void Execute() override; 
     Arm& it;
     frc::XboxController& joy;
   } turretbyStick{arm, operatorstick};
