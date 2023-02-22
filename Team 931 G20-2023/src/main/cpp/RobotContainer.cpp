@@ -113,8 +113,24 @@ void RobotContainer::DrvbyStick::Execute() {
 
 void RobotContainer::TurbyStick::Execute() {
   // testing only
-  static bool setPos = false;
+  static bool setPos = false, hold = false;
+  double x = joy.GetLeftX(), y = joy.GetRightX();
   if (joy.GetAButtonPressed()) setPos = ! setPos;
-  if (setPos) it.SetAngles(joy.GetLeftX(), joy.GetRightX());
-  else it.SetMotors(joy.GetLeftX(), joy.GetRightX());
+  if (joy.GetRightStickButtonPressed()) hold = ! hold;
+  if (setPos) {
+    x *= 90; y *= 90;
+    it.SetAngles(x, y);
+    if (! hold) {
+      frc::SmartDashboard::PutNumber("stage 1 angle:", x);
+      frc::SmartDashboard::PutNumber("stage 2 angle:", y);
+    }
+  }
+  else {
+    x /= 10; y /= 10;
+    it.SetMotors(x, y);
+    if (! hold) {
+      frc::SmartDashboard::PutNumber("stage 1 power:", x);
+      frc::SmartDashboard::PutNumber("stage 2 power:", y);
+    }
+  }
 }

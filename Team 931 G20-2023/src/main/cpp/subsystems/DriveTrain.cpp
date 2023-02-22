@@ -108,7 +108,7 @@ void SwerveModule::Periodic() {
     frc::SmartDashboard::PutNumber(GetName() + " abs Encoder", 4096 * ang);
     frc::SmartDashboard::PutNumber(
         GetName() + " encoder diff",
-        turn.GetSelectedSensorPosition() + ticksPerAbsTick * ang);
+        turn.GetSelectedSensorPosition() + ticksPerRotation * ang);
   }
 #endif /* DRIVE_TRAIN_DEBUG */
 }
@@ -118,7 +118,7 @@ void DriveTrain::Init() {
 
 void SwerveModule::Init() {
   turn.SetSelectedSensorPosition(
-      ticksPerAbsTick *
+      ticksPerRotation *
       (absSubtraction[index] / 4096. - absAngle.GetAbsolutePosition()));
 }
 

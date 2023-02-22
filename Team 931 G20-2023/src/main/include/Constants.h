@@ -49,9 +49,9 @@ const double rotationRescale = std::sqrt(
     halfWid * halfWid);  // todo: de-kludge this, it makes the linear and
                          // rotational control argumenrs comparable.
 constexpr double turnGearing = 72.0 / 14 * 24 / 12,  // maybe use std::ratio
-    ticksPerAbsTick = turnGearing * 2048,
-    velPerRPS = ticksPerAbsTick / 10, //velocity per rotation/sec = accel per rotation/sec^2
-    ticksPerRadian = ticksPerAbsTick / 2 / pi;  // todo: check this with hardware
+    ticksPerRotation = turnGearing * 2048,
+    velPerRPS = ticksPerRotation / 10, //velocity per rotation/sec = accel per rotation/sec^2
+    ticksPerRadian = ticksPerRotation / 2 / pi;  // todo: check this with hardware
 constexpr int absSubtraction[]{2220, 2148, 2695, 1023};  // to align the wheels
 constexpr double maxVel = 12 * velPerRPS, maxAccel = 12 * velPerRPS;//for Motion Magic
 constexpr double CtlP = 0.1, CtlF = 0.25*2048/maxAccel;//for PID
