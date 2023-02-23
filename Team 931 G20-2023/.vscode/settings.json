@@ -18,5 +18,6 @@
   "files.associations": {
     "numbers": "cpp",
     "cmath": "cpp"
-  }
+  },
+  "wpilib.autoStartRioLog": false
 }

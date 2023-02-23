@@ -53,9 +53,9 @@ SwerveModule::SwerveModule()
     : drive(drvnum[ix]),
       turn(trnnum[ix]),
       absAngle(encodernum[ix]),
-      index(ix),
       offsetX(offsetXs[ix]),
-      offsetY(offsetYs[ix]) {
+      offsetY(offsetYs[ix]),
+      index(ix) {
   SetName("wheels " + std::to_string(ix));
   AddChild("absAngle", &absAngle);
   ++ix;

@@ -119,7 +119,7 @@ void RobotContainer::TurbyStick::Execute() {
   if (joy.GetRightStickButtonPressed()) hold = ! hold;
   if (setPos) {
     x *= 90; y *= 90;
-    it.SetAngles(x, y);
+    it.SetAngles(x, y, 0);
     if (! hold) {
       frc::SmartDashboard::PutNumber("stage 1 angle:", x);
       frc::SmartDashboard::PutNumber("stage 2 angle:", y);
@@ -127,7 +127,7 @@ void RobotContainer::TurbyStick::Execute() {
   }
   else {
     x /= 10; y /= 10;
-    it.SetMotors(x, y);
+    it.SetMotors(x, y, 0);
     if (! hold) {
       frc::SmartDashboard::PutNumber("stage 1 power:", x);
       frc::SmartDashboard::PutNumber("stage 2 power:", y);
